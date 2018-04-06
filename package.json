@@ -1,0 +1,29 @@
+{
+  "name": "vin-coder-blog",
+  "version": "1.0.0",
+  "description": "个人博客项目，前端技术栈 react + react-router + redux 后端 技术栈 express + mysql ，主要是为了记录自己的学习日常，同时也希望博客也可以和自己一起成长，壮大！",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vin1992/Personal-Blog.git"
+  },
+  "author": "vin_coder",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vin1992/Personal-Blog/issues"
+  },
+  "homepage": "https://github.com/vin1992/Personal-Blog#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "mongodb": "^3.0.5",
+    "mongoose": "^5.0.13",
+    "node": "^9.11.0",
+    "react": "^16.3.1",
+    "react-dom": "^16.3.1",
+    "react-router": "^4.2.0",
+    "webpack": "^4.5.0"
+  }
+}
