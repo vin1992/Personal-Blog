@@ -22,7 +22,9 @@ if (~process.argv.indexOf('--watch')) {
     }),
     new OpenBrowserPlugin({ url: `http://${host}:${port}` }),
   ];
+
 }
+
 
 
 const getUrl = (url) => {
@@ -68,6 +70,9 @@ module.exports = {
       query: {
         cacheDirectory: true,
       }
+    }, {
+      test: /\.less$/,
+      loader: 'style-loader!css-loader!less-loader'
     }]
   },
   devServer: {
