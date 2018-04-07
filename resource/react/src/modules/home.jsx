@@ -1,39 +1,91 @@
+
+import 'antd/dist/antd.css';
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import AppBar from 'material-ui/AppBar';
-import Badge from 'material-ui/Badge';
-import IconButton from 'material-ui/IconButton';
-import NotificationsIcon from 'material-ui/svg-icons/social/notifications';
+import { Carousel } from 'antd';
+import MyMenu from "../components/MyMenu";
 
 export default class Home extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      banner: [],
+      current: '',
+      menus: [],
+    }
   }
+
+  componentDidMount() {
+    let res = [
+      '/statics/img/slide1.jpg',
+      '/statics/img/slide2.jpg',
+    ];
+    let data =
+      [{
+        menu: "total",
+        route: "/",
+        hasChildren: 0,
+        subMenu: []
+      }, {
+        menu: "react",
+        route: "/react",
+        hasChildren: 1,
+        subMenu: [{
+          title: "virtualDOM",
+          url: "/react/virtualDOM"
+        }, {
+          title: "diffAgorism",
+          url: "/react/diffAgorism"
+        }]
+      }, {
+        menu: "html",
+        route: "/html",
+        hasChildren: 0,
+        subMenu: []
+      }, {
+        menu: "css",
+        route: "/css",
+        hasChildren: 0,
+        subMenu: []
+      }]
+
+
+    this.setState({
+      banner: res,
+      menus: data,
+    })
+  }
+
+  renderBanner() {
+    return this.state.banner.map((e, id) => {
+      return (
+        <img src={e} key={id} />
+      )
+    })
+  }
+
+
+  renderMenu() {
+
+  }
+
   render() {
+    let banners = this.state.banner;
+    let list = this.state.menus;
     return (
-      <MuiThemeProvider>
-        <AppBar
-          title="Title"
-          iconClassNameRight="muidocs-icon-navigation-expand-more"
-        />
-        <h1>Hell yeah!</h1>
-        <Badge
-          badgeContent={4}
-          primary={true}
-        >
-          <NotificationsIcon />
-        </Badge>
-        <Badge
-          badgeContent={10}
-          secondary={true}
-          badgeStyle={{ top: 12, right: 12 }}
-        >
-          <IconButton tooltip="Notifications">
-            <NotificationsIcon />
-          </IconButton>
-        </Badge>
-      </MuiThemeProvider>
+      <div>
+        <Carousel autoplay >
+          {
+            banners.length > 0 &&
+            this.renderBanner()
+          }
+        </Carousel>
+        <div className="menu" >
+          {
+            list.length > 0 && (<MyMenu menus={list} />)
+          }
+        </div>
+
+      </div>
     )
   }
 }

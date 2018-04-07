@@ -16,7 +16,7 @@ if (~process.argv.indexOf('--watch')) {
   plugins = [
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
-      title: 'hello shit',
+      title: 'vin-coder blog',
       favicon: 'favicon.ico',
       template: "./template.html",
     }),
@@ -71,8 +71,12 @@ module.exports = {
         cacheDirectory: true,
       }
     }, {
-      test: /\.less$/,
-      loader: 'style-loader!css-loader!less-loader'
+      test: /\.css$/,
+      use: [
+        'style-loader',
+        { loader: 'css-loader', options: { importLoaders: 1 } },
+        'postcss-loader'
+      ]
     }]
   },
   devServer: {
