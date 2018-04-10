@@ -22,6 +22,7 @@
   padding-left: 40px;
   width: 80%;
 }
+
 .form-wrapper .login-form-button {
   display: block;
   width: 100%;
@@ -34,3 +35,31 @@
   line-height: 32px;
 }
 
+.ant-layout-footer {
+  text-align: center;
+  color:#fff!important;
+  background-color: #354b5e!important;
+}
+
+/* details */
+.details .art-head {
+  padding-top: 10px;
+  border-bottom: 2px solid #1414140e;
+}
+.details .art-head h1 {
+  display: inline-block;
+}
+.details .art-head small {
+  display: inline-block;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+.details article {
+  padding: 0 10px 20px 10px;
+  background-color: #fff;
+  margin-bottom: 10px;
+}
+
+.details .art-content {
+  margin-top: 10px;
+}

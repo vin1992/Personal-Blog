@@ -2,7 +2,7 @@ import "./style.css";
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route, Link, HashRouter } from 'react-router-dom';
-
+console.log('LINK', Link);
 import Home from './home';
 import Details from './details';
 // PS: browserHistory has been removed in react 4.0  ,instead using react-router-dom hashRouter
