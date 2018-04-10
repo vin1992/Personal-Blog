@@ -1,22 +1,36 @@
 @import "../less/global.css";
 
-.ant-carousel .slick-slider {
-  text-align: center;
-  height: 300px;
-  line-height: 300px;
-  background: #364d79;
-  overflow: hidden;
-  
-}
-.slick-slider img {
+.slider .slick-list .slick-track img {
   max-width: 100%;
+
 }
 .menu {
   position: relative;
   padding-left: calc(50% - 400px);
   border-bottom: 1px solid #e9e9e9;
+  background-color: #fff;
 }
 .menu .ant-menu {
   width: 800px;
   border-bottom: none;
 }
+.container {
+  width:80%;
+}
+.form-wrapper {
+  padding: 10px;
+  padding-left: 40px;
+  width: 80%;
+}
+.form-wrapper .login-form-button {
+  display: block;
+  width: 100%;
+}
+.ant-layout-content .loader-btn {
+  text-align: center;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  height: 32px;
+  line-height: 32px;
+}
+
