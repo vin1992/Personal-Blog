@@ -37,16 +37,16 @@ const getUrl = (url) => {
 // 循环读取 src 项目目录 返回对象 作为entries入口 
 const entries = () => {
   let base = path.join(__dirname, './src/modules');
-  let file = fs.readdirSync(base);
   let result = Object.create(null);
 
   fs.readdirSync(base).forEach((file) => {
     file = path.resolve(base, file);
-
+    
     let stat = fs.statSync(file);
 
-    if (stat && stat.isFile() && fs.existsSync(getUrl(file))) {
-      result['blog'] = ["./src", "modules", "index.jsx"].join(path.sep);
+    if (stat && stat.isDirectory() && fs.existsSync(path.join(file,'index.jsx'))) {
+      let name = path.join('modules',path.basename(file));
+      result[name] = ["./src", name, "index.jsx"].join(path.sep);
     }
 
   })
