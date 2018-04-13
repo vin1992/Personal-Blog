@@ -3,7 +3,7 @@ import 'antd/dist/antd.css';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import MyMenu from "../../components/MyMenu";
-import MyForm from '../../components/NormalLoginForm';
+import MyForm from '../../components/LoginForm';
 import IconText from '../../components/IconText';
 import { Layout, Carousel, Row, Col, Avatar, Icon } from 'antd';
 import { List, Spin } from 'antd';
