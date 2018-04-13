@@ -86,6 +86,15 @@ module.exports = {
     inline: true,
     disableHostCheck: true, // 
     historyApiFallback: true,
+    setup: function (app) {
+      app.all('/*/ajax/**', function (req, res) {
+        // req.query
+        var path = './mock' + req.path.replace(/\/ajax/, '');
+        delete require.cache[require.resolve(path)];
+        // res.json(require(path)());
+        setTimeout(function () { res.json(require(path)) }, 500);
+      });
+    }
   },
   resolve: {
     extensions: ['.js', 'json', '.jsx'],

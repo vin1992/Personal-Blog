@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Menu, Icon } from 'antd';
 import PropTypes from 'prop-types';
 
@@ -34,7 +34,7 @@ export default class MyMenu extends Component {
     return list.map((e, id) => {
       return (
         <MenuItem key={id} >
-          <div onClick={this.handleRoute.bind(this, e.route)}>{e.menu}</div>
+          <Link to={`/details/${e.categoryId}`} >{e.menu}</Link>
         </MenuItem>
       )
     })

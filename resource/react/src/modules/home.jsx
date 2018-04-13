@@ -8,6 +8,7 @@ import IconText from '../components/IconText';
 import { Layout, Carousel, Row, Col, Avatar, Icon } from 'antd';
 import { List, Spin } from 'antd';
 import { Form, Input, Button, Checkbox } from 'antd';
+import axios from 'axios';
 
 const FormItem = Form.Item;
 const { Header, Sider, Content, Footer } = Layout;
@@ -25,60 +26,25 @@ export default class Home extends Component {
       loading: false,
       loadingMore: false,
       showLoadingMore: true,
-
     }
     this.timer = 0;
+    this.request = null;
   }
-
   componentDidMount() {
-    console.log(List);
-    let res = [
-      '/statics/img/slide1.jpg',
-      '/statics/img/slide2.jpg',
+    let request = [
+      axios.get('/blog/ajax/carousel'),
+      axios.get('/blog/ajax/menu'),
+      axios.get('/blog/ajax/list'),
     ];
-    let data =
-      [{
-        menu: "total",
-        route: "/",
-        hasChildren: 0,
-        subMenu: []
-      }, {
-        menu: "react",
-        route: "/react",
-        hasChildren: 1,
-        subMenu: [{
-          title: "virtualDOM",
-          url: "/react/virtualDOM"
-        }, {
-          title: "diffAgorism",
-          url: "/react/diffAgorism"
-        }]
-      }, {
-        menu: "html",
-        route: "/html",
-        hasChildren: 0,
-        subMenu: []
-      }, {
-        menu: "css",
-        route: "/css",
-        hasChildren: 0,
-        subMenu: []
-      }]
 
-    var list = [
-      {
-        href: 'http://ant.design',
-        title: `ant design part 1`,
-        avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-        description: 'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-        content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-      }
-    ];
-    this.setState({
-      banner: res,
-      menus: data,
-      list: list,
-    })
+    this.request = axios.all(request)
+      .then(axios.spread((a, b, c) => {
+        this.setState({
+          banner: a.data.data.list,
+          menus: b.data.data.list,
+          list: c.data.data.list,
+        })
+      }))
   }
 
   renderBanner() {
@@ -89,49 +55,12 @@ export default class Home extends Component {
     })
   }
 
-
-  renderMenu() {
-
-  }
-
-  getFakeData = () => {
-    var list = [];
-    for (let i = 0; i < 5; i++) {
-      list.push({
-        href: 'http://ant.design',
-        title: `ant design part ${i}`,
-        avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-        description: 'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-        content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-      });
-    }
-
-    return function () {
-      list = list.concat(list);
-      this.setState({ loadingMore: true });
-      this.timer && clearTimeout(this.timer);
-      this.timer = setTimeout(() => {
-        this.setState({
-          list: list,
-        }, () => {
-          this.setState({
-            loading: false,
-            loadingMore: false,
-          })
-        });
-      }, 500);
-    }
-  }
-
-  FakeRequest = this.getFakeData();
-
   onLoadMore() {
-    this.FakeRequest();
+    alert('no more data');
   }
 
   render() {
-    let banners = this.state.banner;
-    let list = this.state.menus;
+    const { banner, list, menus } = this.state;
     const { loading, loadingMore, showLoadingMore, list: _data } = this.state;
 
     const loadMore = showLoadingMore ? (
@@ -145,13 +74,13 @@ export default class Home extends Component {
       <Layout>
         <Carousel>
           {
-            banners.length > 0 &&
+            banner.length > 0 &&
             this.renderBanner()
           }
         </Carousel>
         <div className="menu" >
           {
-            list.length > 0 && (<MyMenu menus={list} />)
+            menus.length > 0 && (<MyMenu menus={menus}/>)
           }
         </div>
         <Content className="home" >
@@ -165,13 +94,13 @@ export default class Home extends Component {
                 loadMore={loadMore}
                 renderItem={item => (
                   <List.Item
-                    key={item.title}
+                    key={item.id}
                     actions={[<IconText type="star-o" text="156" />, <IconText type="like-o" text="156" />, <IconText type="message" text="2" />]}
-                    extra={<img width={272} alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />}
+                    extra={<img width={272} alt="logo" src={item.image} />}
                   >
                     <List.Item.Meta
                       avatar={<Avatar src={item.avatar} />}
-                      title={<Link to={'/details'}>{item.title}</Link>}
+                      title={<Link to={`/details/${item.id}`}>{item.title}</Link>}
                       description={item.description}
                     />
                     {item.content}

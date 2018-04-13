@@ -2,6 +2,7 @@
 import 'antd/dist/antd.css';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import MyMenu from "../components/MyMenu";
 import MyForm from '../components/NormalLoginForm';
 import IconText from '../components/IconText';
@@ -31,54 +32,20 @@ export default class Home extends Component {
   }
 
   componentDidMount() {
-    console.log(List);
-    let res = [
-      '/statics/img/slide1.jpg',
-      '/statics/img/slide2.jpg',
+    let request = [
+      axios.get('/blog/ajax/carousel'),
+      axios.get('/blog/ajax/menu'),
+      axios.get('/blog/ajax/list'),
     ];
-    let data =
-      [{
-        menu: "total",
-        route: "/",
-        hasChildren: 0,
-        subMenu: []
-      }, {
-        menu: "react",
-        route: "/react",
-        hasChildren: 1,
-        subMenu: [{
-          title: "virtualDOM",
-          url: "/react/virtualDOM"
-        }, {
-          title: "diffAgorism",
-          url: "/react/diffAgorism"
-        }]
-      }, {
-        menu: "html",
-        route: "/html",
-        hasChildren: 0,
-        subMenu: []
-      }, {
-        menu: "css",
-        route: "/css",
-        hasChildren: 0,
-        subMenu: []
-      }]
 
-    var list = [
-      {
-        href: 'http://ant.design',
-        title: `ant design part 1`,
-        avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-        description: 'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-        content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-      }
-    ];
-    this.setState({
-      banner: res,
-      menus: data,
-      list: list,
-    })
+    this.request = axios.all(request)
+      .then(axios.spread((a, b, c) => {
+        this.setState({
+          banner: a.data.data.list,
+          menus: b.data.data.list,
+          list: c.data.data.list,
+        })
+      }))
   }
 
   renderBanner() {
@@ -91,21 +58,19 @@ export default class Home extends Component {
 
 
   render() {
-    let banners = this.state.banner;
-    let list = this.state.menus;
-
+    let { banner,menus } = this.state;
 
     return (
       <Layout>
         <Carousel>
           {
-            banners.length > 0 &&
+            banner.length > 0 &&
             this.renderBanner()
           }
         </Carousel>
         <div className="menu" >
           {
-            list.length > 0 && (<MyMenu menus={list} />)
+            menus.length > 0 && (<MyMenu menus={menus} />)
           }
         </div>
         <Content className="details">
@@ -131,7 +96,6 @@ export default class Home extends Component {
             <Col span={6} >
               <div className="form-wrapper">
                 <WrappedNormalLoginForm />
-
               </div>
             </Col>
           </Row>
