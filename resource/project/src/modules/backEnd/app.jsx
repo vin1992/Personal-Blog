@@ -48,7 +48,6 @@ export default class App extends Component {
               title={<span><Icon type="user" /><span>文章管理</span></span>}
             >
               <Menu.Item key="3"><Link to={`/backEnd/articleList`}>查看</Link></Menu.Item>
-              <Menu.Item key="4"><Link to={`/backEnd/delete`}>删除</Link></Menu.Item>
               <Menu.Item key="5"><Link to={`/backEnd/garbage`}>垃圾桶</Link></Menu.Item>
             </SubMenu>
             <SubMenu
