@@ -14,13 +14,6 @@ export default class App extends Component {
     this.setState({ collapsed });
   }
 
-  LinkToSomeWhere(d) {
-    console.log(d);
-    if (d == 1) {
-      location.href = 'http://127.0.0.1:1024/frontEnd/';
-    }
-  }
-
   render() {
     return (
       <Layout style={{ minHeight: '100vh' }} className="home">
@@ -32,15 +25,17 @@ export default class App extends Component {
           <div className="logo" />
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
             <Menu.Item key="1">
-              <Icon type="pie-chart" />
-              <span onClick={this.LinkToSomeWhere.bind(this, 1)}>
-                我的博客
+              <Link to={`/frontEnd/`}>
+                <Icon type="pie-chart" />
+                <span>
+                  我的博客
               </span>
+              </Link>
             </Menu.Item>
             <Menu.Item key="2">
               <Link to={`/backEnd/create/`}>
                 <Icon type="desktop" />
-                <span onClick={this.LinkToSomeWhere.bind(this, 2)}>发布文章</span>
+                <span >发布文章</span>
               </Link>
             </Menu.Item>
             <SubMenu

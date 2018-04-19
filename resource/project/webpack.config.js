@@ -19,11 +19,14 @@ if (~process.argv.indexOf('--watch')) {
       title: 'vin-coder blog',
       favicon: 'favicon.ico',
       template: "./template.html",
+      chunks: [],
     }),
     new OpenBrowserPlugin({ url: `http://${host}:${port}` }),
   ];
 
 }
+
+
 
 
 

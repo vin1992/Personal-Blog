@@ -1,3 +1,4 @@
 node_modules
-./resource/react/node_modules
+./resource/project/node_modules
 progress.md
+./resource/project/dist
