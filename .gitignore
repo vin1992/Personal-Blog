@@ -2,3 +2,5 @@ node_modules
 ./resource/project/node_modules
 progress.md
 ./resource/project/dist
+./yarn.lock
+./yarn-error.log

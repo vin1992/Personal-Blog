@@ -3,14 +3,17 @@
  */
 
 const config = {
+  // node服务
   host: '127.0.0.1',
   port: 3000,
 
+  // api服务
   apiHost: '127.0.0.1',
-  apiPort: 3001,
+  apiPort: 3030,
 
+  //数据库服务
   dbHost: 'localhost',
-  dbPort: 3002
+  dbPort: '27017'
 }
 
 module.exports = config;

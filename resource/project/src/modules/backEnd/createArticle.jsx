@@ -38,19 +38,34 @@ export default class createArticle extends Component {
 
   handleTags(val) {
     let tags = val;
-    this.setState({ tags: [].concat(val) })
+    this.setState({ tags })
   }
 
   handleSubmit() {
-    let { title, content, tags } = this.state;
-    let author = 'vin_coder';
-    let createTime = Date.now();
 
-    axios.post('/frontEnd/ajax/create', { title, content, tags, author, createTime })
+  }
+
+  test() {
+    let { title, content, tags } = this.state;
+    console.log(this.state, 111);
+
+    let author = 'vin_coder';
+    let time = Date.now();
+    let isPublish = 1;
+    /**
+     * title,
+        content,
+        time,
+        tags,
+        isPublish
+     */
+    axios.post('/blog/admin/article/create', { title, content, tags, time, isPublish })
       .then(response => {
+        alert(response)
         console.log(response);
       })
       .catch(error => {
+
         console.log(error);
       })
   }
@@ -61,7 +76,7 @@ export default class createArticle extends Component {
     return (
       <div className="createArticle">
         <h1>发文</h1>
-        <Form onSubmit={this.handleSubmit.bind(this)}>
+        <Form >
           <Row>
             <Col>
               <FormItem label="标题">
@@ -81,7 +96,7 @@ export default class createArticle extends Component {
                 />
               </FormItem>
               <FormItem className="create" >
-                <Button htmlType="submit">发布</Button>
+                <Button htmlType="submit" onClick={this.test.bind(this)}>发布</Button>
                 <Button >保存</Button>
                 <Button >预览</Button>
               </FormItem>

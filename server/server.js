@@ -16,19 +16,21 @@ var config = require('../config/config');
 const app = new express();
 const port = config.port;
 
-//处理前端路由 静态文件引入
-// app.use('/', connectHistoryApiFallback());
-app.use('/', express.static(path.join(__dirname, "../resource/project/dist")));
-
 let target = `http://${config.apiHost}:${config.apiPort}`;
 const proxy = httpProxy.createProxyServer({ target });
 
+//处理前端路由 静态文件引入
+app.use('/', connectHistoryApiFallback());
+app.use('/', express.static(path.join(__dirname, "../resource/project/dist")));
+
+
 // api代理转换
-app.use('/api', (req, res) => {
-  proxy.web(req, res, { target: targetUrl })
+app.use('/blog', (req, res) => {
+  proxy.web(req, res, { target })
 })
 
 app.use(compression());
+app.use(favicon(path.join(__dirname, "../resource/project/dist/favicon.ico")));
 
 //热更新
 /*if (process.env.NODE_EVN !== 'production') {

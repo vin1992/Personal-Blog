@@ -2,7 +2,7 @@
  * article 表结构
  */
 
-import mongoose from 'mongoose';
+let mongoose = require('mongoose');
 
 const table_struct = {
   title: String, // 文章标题
