@@ -10,7 +10,7 @@ export default class createArticle extends Component {
   state = {
     title: '',
     content: '',
-    tags: [], // 所属标签，目前暂时是 只支持单选
+    tags: '', // 所属标签，目前暂时是 只支持单选
     dataSource: []
 
   }
@@ -59,13 +59,22 @@ export default class createArticle extends Component {
         tags,
         isPublish
      */
-    axios.post('/blog/admin/article/create', { title, content, tags, time, isPublish })
+    axios.post('/api/admin/article/create', { title, content, tags, time, isPublish })
       .then(response => {
-        alert(response)
         console.log(response);
       })
       .catch(error => {
 
+        console.log(error);
+      })
+  }
+
+  test1() {
+    axios.get('/api/admin/article/getArticles', {})
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
         console.log(error);
       })
   }
@@ -98,7 +107,7 @@ export default class createArticle extends Component {
               <FormItem className="create" >
                 <Button htmlType="submit" onClick={this.test.bind(this)}>发布</Button>
                 <Button >保存</Button>
-                <Button >预览</Button>
+                <Button onClick={this.test1.bind(this)}>预览</Button>
               </FormItem>
             </Col>
           </Row>

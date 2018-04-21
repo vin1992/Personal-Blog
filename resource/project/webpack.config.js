@@ -80,7 +80,18 @@ module.exports = {
         { loader: 'css-loader', options: { importLoaders: 1 } },
         'postcss-loader'
       ]
-    }]
+    }, {
+      test: /\.(png|jpg|gif|JPG|GIF|PNG|BMP|bmp|JPEG|jpeg)$/,
+      exclude: /node_modules/,
+      use: [
+        {
+          loader: 'url-loader',
+          options: {
+            limit: 8192
+          }
+        }
+      ]
+    },]
   },
   devServer: {
     host: host,

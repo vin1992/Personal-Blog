@@ -25,7 +25,7 @@ app.use('/', express.static(path.join(__dirname, "../resource/project/dist")));
 
 
 // api代理转换
-app.use('/blog', (req, res) => {
+app.use('/api', (req, res) => {
   proxy.web(req, res, { target })
 })
 

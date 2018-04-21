@@ -31,10 +31,46 @@ export default class Home extends Component {
   }
   componentDidMount() {
     this.setState({ loading: true, });
+    this.setState({
+      banner: [
+        '/statics/img/slide1.jpg',
+        '/statics/img/slide2.jpg',
+        '/statics/img/slide1.jpg',
+        '/statics/img/slide2.jpg',
+      ],
+      menus: [{
+        categoryId: 1,
+        menu: "total",
+        hasChildren: 0,
+        subMenu: []
+      }, {
+        categoryId: 2,
+        menu: "react",
+        hasChildren: 1,
+        subMenu: [{
+          title: "virtualDOM",
+          url: "/react/virtualDOM"
+        }, {
+          title: "diffAgorism",
+          url: "/react/diffAgorism"
+        }]
+      }, {
+        categoryId: 3,
+        menu: "html",
+        hasChildren: 0,
+        subMenu: []
+      }, {
+        categoryId: 4,
+        menu: "css",
+        hasChildren: 0,
+        subMenu: []
+      }]
+    })
+    /*
     let request = [
-      axios.get('/blog/ajax/carousel'),
-      axios.get('/blog/ajax/menu'),
-      axios.get('/blog/ajax/list'),
+      axios.get('/api/ajax/carousel'),
+      axios.get('/api/ajax/menu'),
+      axios.get('/api/ajax/list'),
     ];
 
     this.request = axios.all(request)
@@ -46,6 +82,18 @@ export default class Home extends Component {
           loading: false,
         })
       }))
+    */
+
+    axios.get('/api/ajax/list', { tag: 'javascript', isPublish: true }).then(response => {
+      let list = response.data.data.list;
+      console.log(list);
+
+      this.setState({ list, loading: false });
+
+
+    }).catch(err => {
+      console.log(err);
+    })
   }
 
   renderBanner() {

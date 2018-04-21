@@ -26,9 +26,9 @@ export default class Home extends Component {
 
   componentDidMount() {
     let request = [
-      axios.get('/blog/ajax/carousel'),
-      axios.get('/blog/ajax/menu'),
-      axios.get('/blog/ajax/details', { id: 200 }),
+      axios.get('/api/ajax/carousel'),
+      axios.get('/api/ajax/menu'),
+      axios.get('/api/ajax/details', { id: 200 }),
     ];
 
     this.request = axios.all(request)
