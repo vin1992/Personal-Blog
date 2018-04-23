@@ -66,35 +66,35 @@ export default class Home extends Component {
         subMenu: []
       }]
     })
-    /*
+
     let request = [
-      axios.get('/api/ajax/carousel'),
-      axios.get('/api/ajax/menu'),
+      axios.get('/api/ajax/getTags'),
       axios.get('/api/ajax/list'),
     ];
 
     this.request = axios.all(request)
-      .then(axios.spread((a, b, c) => {
+      .then(axios.spread((b, c) => {
         this.setState({
-          banner: a.data.data.list,
-          menus: b.data.data.list,
+          menus: b.data.data,
           list: c.data.data.list,
           loading: false,
         })
       }))
-    */
-
-    axios.get('/api/ajax/list', { tag: 'javascript', isPublish: true }).then(response => {
-      let list = response.data.data.list;
-      console.log(list);
-
-      this.setState({ list, loading: false });
 
 
-    }).catch(err => {
-      console.log(err);
-    })
+
   }
+
+  // getArticleList() {
+  //   axios.get('/api/ajax/list', { tag: 'javascript', isPublish: true }).then(response => {
+  //     let list = response.data.data.list;
+  //     console.log(list);
+
+  //     this.setState({ list, loading: false });
+  //   }).catch(err => {
+  //     console.log(err);
+  //   })
+  // }
 
   renderBanner() {
     return this.state.banner.map((e, id) => {

@@ -16,17 +16,13 @@ export default class MyMenu extends Component {
     }
   }
 
-  handleRoute(route) {
-    console.log(route, this.props);
-    location.href = location.protocol + '//' + location.host + route;
-  }
 
   renderParent(list) {
     console.log(list);
     return list.map((e, id) => {
       return (
         <MenuItem key={id} >
-          <Link to={`/frontEnd/details/${e.categoryId}`} >{e.menu}</Link>
+          <Link to={`/frontEnd/details/${e.name}`} >{e.name}</Link>
         </MenuItem>
       )
     })

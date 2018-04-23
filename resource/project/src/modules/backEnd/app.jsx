@@ -38,6 +38,12 @@ export default class App extends Component {
                 <span >发布文章</span>
               </Link>
             </Menu.Item>
+            <Menu.Item key="1000">
+              <Link to={`/backEnd/tags/`}>
+                <Icon type="desktop" />
+                <span >标签管理</span>
+              </Link>
+            </Menu.Item>
             <SubMenu
               key="sub1"
               title={<span><Icon type="user" /><span>文章管理</span></span>}

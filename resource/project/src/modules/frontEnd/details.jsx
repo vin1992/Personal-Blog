@@ -25,21 +25,59 @@ export default class Home extends Component {
   }
 
   componentDidMount() {
+    this.setState({ loading: true, });
+    this.setState({
+      banner: [
+        '/statics/img/slide1.jpg',
+        '/statics/img/slide2.jpg',
+        '/statics/img/slide1.jpg',
+        '/statics/img/slide2.jpg',
+      ],
+      menus: [{
+        categoryId: 1,
+        menu: "total",
+        hasChildren: 0,
+        subMenu: []
+      }, {
+        categoryId: 2,
+        menu: "react",
+        hasChildren: 1,
+        subMenu: [{
+          title: "virtualDOM",
+          url: "/react/virtualDOM"
+        }, {
+          title: "diffAgorism",
+          url: "/react/diffAgorism"
+        }]
+      }, {
+        categoryId: 3,
+        menu: "html",
+        hasChildren: 0,
+        subMenu: []
+      }, {
+        categoryId: 4,
+        menu: "css",
+        hasChildren: 0,
+        subMenu: []
+      }]
+    })
+
     let request = [
-      axios.get('/api/ajax/carousel'),
-      axios.get('/api/ajax/menu'),
-      axios.get('/api/ajax/details', { id: 200 }),
+      axios.get('/api/ajax/getTags'),
+      axios.get('/api/ajax/list'),
     ];
 
     this.request = axios.all(request)
-      .then(axios.spread((a, b, c) => {
-        console.log(c, 'details');
+      .then(axios.spread((b, c) => {
         this.setState({
-          banner: a.data.data.list,
-          menus: b.data.data.list,
-          details: c.data.data.data,
+          menus: b.data.data,
+          list: c.data.data.list,
+          loading: false,
         })
       }))
+
+
+
   }
 
   renderBanner() {

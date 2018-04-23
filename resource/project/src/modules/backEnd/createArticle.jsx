@@ -15,9 +15,7 @@ export default class createArticle extends Component {
 
   }
   componentDidMount() {
-    this.setState({
-      dataSource: ['html', 'css', 'javascript', 'nodejs', 'typescript', 'react']
-    })
+    this.getAllTags();
   }
 
   filter(val) {
@@ -41,24 +39,25 @@ export default class createArticle extends Component {
     this.setState({ tags })
   }
 
-  handleSubmit() {
-
+  // 获取标签
+  getAllTags() {
+    axios.get('/api/admin/tags/getTags').then(res => {
+      let tags = res.data.data;
+      this.setState({ dataSource: tags });
+    }).catch(err => {
+      this.setState({ dataSource: [] });
+      console.log(err);
+    })
   }
 
-  test() {
+  createArticle() {
     let { title, content, tags } = this.state;
     console.log(this.state, 111);
 
     let author = 'vin_coder';
     let time = Date.now();
     let isPublish = 1;
-    /**
-     * title,
-        content,
-        time,
-        tags,
-        isPublish
-     */
+
     axios.post('/api/admin/article/create', { title, content, tags, time, isPublish })
       .then(response => {
         console.log(response);
@@ -105,7 +104,7 @@ export default class createArticle extends Component {
                 />
               </FormItem>
               <FormItem className="create" >
-                <Button htmlType="submit" onClick={this.test.bind(this)}>发布</Button>
+                <Button htmlType="submit" onClick={this.createArticle.bind(this)}>发布</Button>
                 <Button >保存</Button>
                 <Button onClick={this.test1.bind(this)}>预览</Button>
               </FormItem>

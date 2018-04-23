@@ -1,6 +1,7 @@
 const express = require('express');
 
 const Article = require('../../models/article');
+const Tags = require('../../models/tags');
 let { responseClient } = require('../util');
 
 const router = express.Router();
@@ -29,7 +30,7 @@ router.get('/list', function (req, res) {
       responseData.total = count;
       Article.find(searchCondition, '_id title isPublish author viewCount commentCount time coverImg', {
         skip: skip,
-        limit: 5
+        // limit: 
       })
         // Article.find()
         .then(result => {
@@ -43,5 +44,20 @@ router.get('/list', function (req, res) {
       responseClient(res);
     });
 });
+
+router.get('/getTags', function (req, res) {
+  Tags.find(null, 'name').then(result => {
+    if (result) {
+      console.log(result, '返回结果');
+      responseClient(res, 200, 0, '查询成功', result);
+    } else {
+      responseClient(res, 200, 1, '无数据');
+    }
+  }).catch(err => {
+    responseClient(res);
+  })
+})
+
+
 
 module.exports = router;

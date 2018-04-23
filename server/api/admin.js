@@ -8,7 +8,9 @@ const tagsApi = require('./tags');
 
 // 文章api
 router.use('/article', articleApi);
+
 // 标签api
+router.use('/tags', tagsApi);
 
 
 
