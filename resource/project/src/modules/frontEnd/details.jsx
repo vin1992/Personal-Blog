@@ -3,15 +3,11 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import axios from 'axios';
 import MyMenu from "../../components/MyMenu";
-import MyForm from '../../components/LoginForm';
 import IconText from '../../components/IconText';
 import { Layout, Carousel, Row, Col, Avatar, Icon } from 'antd';
-import { Form, Input, Button, Checkbox } from 'antd';
 import Filter from '../../support/filter';
 
-const FormItem = Form.Item;
 const { Header, Sider, Content, Footer } = Layout;
-const WrappedNormalLoginForm = Form.create()(MyForm);
 
 export default class Home extends Component {
   constructor(props) {
@@ -19,91 +15,31 @@ export default class Home extends Component {
     this.state = {
       banner: [],
       current: '',
-      menus: [],
       details: {},
     }
   }
 
   componentDidMount() {
-    this.setState({ loading: true, });
-    this.setState({
-      banner: [
-        '/statics/img/slide1.jpg',
-        '/statics/img/slide2.jpg',
-        '/statics/img/slide1.jpg',
-        '/statics/img/slide2.jpg',
-      ],
-      menus: [{
-        categoryId: 1,
-        menu: "total",
-        hasChildren: 0,
-        subMenu: []
-      }, {
-        categoryId: 2,
-        menu: "react",
-        hasChildren: 1,
-        subMenu: [{
-          title: "virtualDOM",
-          url: "/react/virtualDOM"
-        }, {
-          title: "diffAgorism",
-          url: "/react/diffAgorism"
-        }]
-      }, {
-        categoryId: 3,
-        menu: "html",
-        hasChildren: 0,
-        subMenu: []
-      }, {
-        categoryId: 4,
-        menu: "css",
-        hasChildren: 0,
-        subMenu: []
-      }]
-    })
-
-    let request = [
-      axios.get('/api/ajax/getTags'),
-      axios.get('/api/ajax/list'),
-    ];
-
-    this.request = axios.all(request)
-      .then(axios.spread((b, c) => {
-        this.setState({
-          menus: b.data.data,
-          list: c.data.data.list,
-          loading: false,
-        })
-      }))
-
-
-
+    console.log(this.props, 'props');
+    let art_id = this.props.router.params.categoryId;
+    this.setState({ loading: true }, this.getArticleDetails(art_id));
   }
 
-  renderBanner() {
-    return this.state.banner.map((e, id) => {
-      return (
-        <img src={e} key={id} />
-      )
+  getArticleDetails(id) {
+    axios.get(`/api/ajax/details?id=${id}`).then(res => {
+      console.log(res);
+      let details = res.data.data;
+      this.setState({ details });
+    }).catch(err => {
+      throw new Error(err);
     })
   }
 
   render() {
-    let { banner, menus, details } = this.state;
+    let { details } = this.state;
 
     return (
       <Layout>
-        <Carousel>
-          {
-            banner.length > 0 &&
-            this.renderBanner()
-          }
-        </Carousel>
-        <div className="menu" >
-          {
-            menus.length > 0 && (<MyMenu menus={menus} />)
-          }
-        </div>
         <Content className="details">
           <Row>
             <Col span={12} offset={5}>
@@ -112,7 +48,7 @@ export default class Home extends Component {
                   <div className="art-head">
                     <h1>{details.title}</h1>
                     <small>author:{details.author}</small>
-                    <small>write in:{Filter.formatDate(details.createTime)} </small>
+                    <small>write in:{Filter.formatDate(details.time)} </small>
                   </div>
                   <div className="art-content">
                     <p>{details.content}</p>
@@ -121,16 +57,8 @@ export default class Home extends Component {
               )}
 
             </Col>
-            <Col span={6} >
-              <div className="form-wrapper">
-                <WrappedNormalLoginForm />
-              </div>
-            </Col>
           </Row>
         </Content>
-        <Footer>
-          Vin Coder ©2018 Created by Vin_Coder
-        </Footer>
       </Layout>
     )
   }

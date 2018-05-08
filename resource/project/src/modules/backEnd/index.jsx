@@ -6,6 +6,7 @@ import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 import App from './app';
 import Home from './home';
 import CreateArticle from './createArticle';
+import ModifyArticle from './modifyArticle';
 import ArticleList from './articleList';
 import ArticleDetails from './articleDetails';
 import Garbage from './garbage';
@@ -18,6 +19,7 @@ ReactDOM.render(
     <Route path="backEnd" component={App}>
       <IndexRoute component={Home} />
       <Route path="create" component={CreateArticle} />
+      <Route path="modify/:id" component={ModifyArticle} />
       <Route path="articleList" component={ArticleList} />
       <Route path="articleDetails/:id" component={ArticleDetails} />
       <Route path="garbage" component={Garbage} />

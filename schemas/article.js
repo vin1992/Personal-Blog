@@ -12,8 +12,12 @@ const table_struct = {
   viewCount: Number,// 浏览次数
   commentCount: Number,// 评论次数
   coverImg: String,// 封面图片
-  tags: Array,// 标签
+  tag: String,// 标签
   isPublish: Boolean,// 是否发布
+  isDel: {
+    type: Boolean,
+    default: false, // true 表示 移入垃圾桶 false 为 未进行任何操作
+  },
 }
 
 module.exports = new mongoose.Schema(table_struct);

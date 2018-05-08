@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import MyMenu from "../../components/MyMenu";
-import MyForm from '../../components/LoginForm';
 import IconText from '../../components/IconText';
 import { Layout, Carousel, Row, Col, Avatar, Icon } from 'antd';
 import { List, Spin } from 'antd';
@@ -12,16 +11,14 @@ import axios from 'axios';
 const FormItem = Form.Item;
 const { Header, Sider, Content, Footer } = Layout;
 const { Item } = List;
-const WrappedNormalLoginForm = Form.create()(MyForm);
 
 export default class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      banner: [],
       current: '',
-      menus: [],
       list: [],
+      menus: [],
       loading: false,
       loadingMore: false,
       showLoadingMore: true,
@@ -30,77 +27,28 @@ export default class Home extends Component {
     this.request = null;
   }
   componentDidMount() {
-    this.setState({ loading: true, });
-    this.setState({
-      banner: [
-        '/statics/img/slide1.jpg',
-        '/statics/img/slide2.jpg',
-        '/statics/img/slide1.jpg',
-        '/statics/img/slide2.jpg',
-      ],
-      menus: [{
-        categoryId: 1,
-        menu: "total",
-        hasChildren: 0,
-        subMenu: []
-      }, {
-        categoryId: 2,
-        menu: "react",
-        hasChildren: 1,
-        subMenu: [{
-          title: "virtualDOM",
-          url: "/react/virtualDOM"
-        }, {
-          title: "diffAgorism",
-          url: "/react/diffAgorism"
-        }]
-      }, {
-        categoryId: 3,
-        menu: "html",
-        hasChildren: 0,
-        subMenu: []
-      }, {
-        categoryId: 4,
-        menu: "css",
-        hasChildren: 0,
-        subMenu: []
-      }]
-    })
-
-    let request = [
-      axios.get('/api/ajax/getTags'),
-      axios.get('/api/ajax/list'),
-    ];
-
-    this.request = axios.all(request)
-      .then(axios.spread((b, c) => {
-        this.setState({
-          menus: b.data.data,
-          list: c.data.data.list,
-          loading: false,
-        })
-      }))
-
-
-
+    this.setState({ loading: true, }, this.getArticleList());
+    this.getAllTags();
   }
 
-  // getArticleList() {
-  //   axios.get('/api/ajax/list', { tag: 'javascript', isPublish: true }).then(response => {
-  //     let list = response.data.data.list;
-  //     console.log(list);
+  getAllTags() {
+    axios.get('/api/ajax/getTags').then(response => {
+      let tags = response.data.data;
+      this.setState({ menus: tags });
+    }).catch(err => {
+      throw new Error(err);
+    })
+  }
 
-  //     this.setState({ list, loading: false });
-  //   }).catch(err => {
-  //     console.log(err);
-  //   })
-  // }
 
-  renderBanner() {
-    return this.state.banner.map((e, id) => {
-      return (
-        <img src={e} key={id} />
-      )
+
+  getArticleList() {
+    axios.get('/api/ajax/list?isPublish=true').then(response => {
+      let list = response.data.data.list;
+      console.log(list);
+      this.setState({ list, loading: false });
+    }).catch(err => {
+      throw new Error(err);
     })
   }
 
@@ -109,7 +57,7 @@ export default class Home extends Component {
   }
 
   render() {
-    const { banner, list, menus } = this.state;
+    const { list, menus } = this.state;
     const { loading, loadingMore, showLoadingMore, list: _data } = this.state;
 
     const loadMore = showLoadingMore ? (
@@ -121,15 +69,9 @@ export default class Home extends Component {
 
     return (
       <Layout>
-        <Carousel>
-          {
-            banner.length > 0 &&
-            this.renderBanner()
-          }
-        </Carousel>
         <div className="menu" >
           {
-            menus.length > 0 && (<MyMenu menus={menus} />)
+            menus.length > 0 && (<MyMenu menus={menus} list={this.state.list} context={this} />)
           }
         </div>
         <Content className="home" >
@@ -143,13 +85,13 @@ export default class Home extends Component {
                 loadMore={loadMore}
                 renderItem={item => (
                   <List.Item
-                    key={item.id}
+                    key={item._id}
                     actions={[<IconText type="star-o" text="156" />, <IconText type="like-o" text="156" />, <IconText type="message" text="2" />]}
                     extra={<img width={272} alt="logo" src={item.image} />}
                   >
                     <List.Item.Meta
                       avatar={<Avatar src={item.avatar} />}
-                      title={<Link to={`frontEnd/details/${item.id}`}>{item.title}</Link>}
+                      title={<Link to={`frontEnd/details/${item._id}`}>{item.title}</Link>}
                       description={item.description}
                     />
                     {item.content}
@@ -157,17 +99,8 @@ export default class Home extends Component {
                 )}
               />
             </Col>
-            <Col span={6} >
-              <div className="form-wrapper">
-                <WrappedNormalLoginForm />
-
-              </div>
-            </Col>
           </Row>
         </Content>
-        <Footer>
-          Vin Coder ©2018 Created by Vin_Coder
-        </Footer>
       </Layout>
     )
   }

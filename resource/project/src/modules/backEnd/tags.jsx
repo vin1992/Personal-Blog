@@ -2,17 +2,29 @@ import React, { Component } from 'react';
 import { Tag, Input, Tooltip, Icon } from 'antd';
 import axios from 'axios';
 
+
 export default class Tags extends Component {
   state = {
-    tags: ['Unremovable', 'Tag 2', 'Tag 3'],
+    tags: [],
     inputVisible: false,
     inputValue: '',
   };
 
   handleClose = (removedTag) => {
+
     const tags = this.state.tags.filter(tag => tag !== removedTag);
-    console.log(tags, removedTag, 222);
     this.setState({ tags }, this.deleteTags(removedTag));
+  }
+
+  componentDidMount() {
+    // 获取所有的标签
+    axios.get('/api/admin/tags/getTags').then(res => {
+      let tags = res.data.data;
+      this.setState({ tags });
+    }).catch(err => {
+      this.setState({ tags: [] });
+      console.log(err);
+    })
   }
 
   showInput = () => {
@@ -40,6 +52,8 @@ export default class Tags extends Component {
 
   saveInputRef = input => this.input = input
 
+
+
   // add 
   addTags(tag) {
     axios.post('/api/admin/tags/create', { name: tag }).then(res => {
@@ -65,7 +79,7 @@ export default class Tags extends Component {
         {tags.map((tag, index) => {
           const isLongTag = tag.length > 20;
           const tagElem = (
-            <Tag key={tag} closable={index !== 0} afterClose={() => this.handleClose(tag)}>
+            <Tag key={tag} closable={true} afterClose={() => this.handleClose(tag)}>
               {isLongTag ? `${tag.slice(0, 20)}...` : tag}
             </Tag>
           );

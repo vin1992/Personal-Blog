@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
+import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, Modal } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const AutoCompleteOption = AutoComplete.Option;
@@ -10,8 +10,9 @@ export default class createArticle extends Component {
   state = {
     title: '',
     content: '',
-    tags: '', // 所属标签，目前暂时是 只支持单选
-    dataSource: []
+    tag: '', // 所属标签，目前暂时是 只支持单选
+    dataSource: [],
+    visible: false,
 
   }
   componentDidMount() {
@@ -19,7 +20,6 @@ export default class createArticle extends Component {
   }
 
   filter(val) {
-
     let dataSource = this.state.dataSource;
     let res = dataSource.filter(item => item.includes(val));
     console.log(res);
@@ -35,8 +35,8 @@ export default class createArticle extends Component {
   }
 
   handleTags(val) {
-    let tags = val;
-    this.setState({ tags })
+    let tag = val;
+    this.setState({ tag })
   }
 
   // 获取标签
@@ -51,14 +51,14 @@ export default class createArticle extends Component {
   }
 
   createArticle() {
-    let { title, content, tags } = this.state;
+    let { title, content, tag } = this.state;
     console.log(this.state, 111);
 
     let author = 'vin_coder';
     let time = Date.now();
     let isPublish = 1;
 
-    axios.post('/api/admin/article/create', { title, content, tags, time, isPublish })
+    axios.post('/api/admin/article/create', { title, content, tag, time, isPublish })
       .then(response => {
         console.log(response);
       })
@@ -67,16 +67,15 @@ export default class createArticle extends Component {
         console.log(error);
       })
   }
-
-  test1() {
-    axios.get('/api/admin/article/getArticles', {})
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      })
+  handleOk() {
+    this.setState({ visible: false });
   }
+
+  overview() {
+    axios.post('/api/admin/article/details', {})
+    this.setState({ visible: true });
+  }
+
 
 
   render() {
@@ -84,6 +83,16 @@ export default class createArticle extends Component {
     return (
       <div className="createArticle">
         <h1>发文</h1>
+        <Modal
+          title={this.state.title}
+          visible={this.state.visible}
+          onOk={this.handleOk.bind(this)}
+          footer={[
+            <Button key="back" onClick={this.handleOk.bind(this)}>关闭</Button>,
+          ]}
+        >
+          <p>{this.state.content}</p>
+        </Modal>
         <Form >
           <Row>
             <Col>
@@ -95,7 +104,7 @@ export default class createArticle extends Component {
               </FormItem>
               <FormItem label="标签">
                 <AutoComplete
-                  value={this.state.tags}
+                  value={this.state.tag}
                   onChange={this.handleTags.bind(this)}
                   dataSource={dataSource}
                   style={{ width: 200 }}
@@ -106,7 +115,7 @@ export default class createArticle extends Component {
               <FormItem className="create" >
                 <Button htmlType="submit" onClick={this.createArticle.bind(this)}>发布</Button>
                 <Button >保存</Button>
-                <Button onClick={this.test1.bind(this)}>预览</Button>
+                <Button onClick={this.overview.bind(this)}>预览</Button>
               </FormItem>
             </Col>
           </Row>

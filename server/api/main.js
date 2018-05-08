@@ -6,16 +6,17 @@ let { responseClient } = require('../util');
 
 const router = express.Router();
 
-//获取文章
+//获取文章列表
 router.get('/list', function (req, res) {
   console.log(req.query);
   let tag = null || req.query.tag;
-  let isPublish = true || req.query.isPublish;
+  let isPublish = req.query.isPublish;
   let searchCondition = {
     isPublish,
+    isDel: false, // 未删除的才筛选出来
   };
   if (tag) {
-    searchCondition.tags = tag;
+    searchCondition.tag = tag;
   }
   if (isPublish === 'false') {
     searchCondition = null
@@ -44,6 +45,28 @@ router.get('/list', function (req, res) {
       responseClient(res);
     });
 });
+
+// 获取文章详情
+
+router.get('/details', function (req, res) {
+  console.log(req.query);
+  let { id } = req.query;
+
+  Article.findOne({ _id: id }, '_id title content tag time author')
+    .then(result => {
+      if (result) {
+        responseClient(res, 200, 0, '获取成功', result);
+      } else {
+        responseClient(res, 200, 1, '获取失败', result);
+      }
+    })
+    .catch(err => {
+      responseClient(res);
+    })
+})
+
+
+
 
 router.get('/getTags', function (req, res) {
   Tags.find(null, 'name').then(result => {

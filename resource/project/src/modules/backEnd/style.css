@@ -10,3 +10,19 @@
   background-color:#1890ff;
   color:#fff;
 }
+.article-list {
+  width: 100%;
+  padding: 10px;
+}
+.article-list thead tr:first-child {
+  background-color:#ccc;
+}
+.article-list tr td {
+  padding: 10px;
+}
+.article-list .art-option span {
+  display: inline-block;
+  color:blue;
+  margin-left: 5px;
+  cursor: pointer;
+}
