@@ -9,7 +9,12 @@ const MenuItemGroup = Menu.ItemGroup;
 const MenuItem = Menu.Item;
 
 export default class MyMenu extends Component {
-
+  static propTypes = {
+    list: PropTypes.array.isRequired,
+  }
+  static defaultProps = {
+    list: [],
+  }
   constructor(props) {
     super(props);
     this.state = {

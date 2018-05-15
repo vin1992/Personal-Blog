@@ -10,6 +10,7 @@ import ModifyArticle from './modifyArticle';
 import ArticleList from './articleList';
 import ArticleDetails from './articleDetails';
 import Garbage from './garbage';
+import Login from './login';
 import Tags from './tags';
 
 // PS: browserHistory has been removed in react 4.0  ,instead using react-router-dom hashRouter
@@ -25,6 +26,7 @@ ReactDOM.render(
       <Route path="garbage" component={Garbage} />
       <Route path="tags" component={Tags} />
     </Route>
+    <Route path="login" component={Login}></Route>
   </Router>,
   document.querySelector('#root')
 );
