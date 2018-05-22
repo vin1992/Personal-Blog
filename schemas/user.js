@@ -3,7 +3,7 @@
 let mongoose = require("mongoose");
 
 const table_struct = {
-  username: String,
+  user: String,
   password: String,
   type: String//管理员、普通用户
 }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import ReactQuill from 'react-quill'; // 引入 react-quill 富文本编辑器
 import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, Modal } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -9,12 +10,37 @@ const { TextArea } = Input;
 export default class createArticle extends Component {
   state = {
     title: '',
-    content: '',
+    text: '',
     tag: '', // 所属标签，目前暂时是 只支持单选
     dataSource: [],
     visible: false,
 
   }
+
+  modules = {
+    toolbar: [
+      [{ 'header': '1'}, {'header': '2'}, { 'font': [] }],
+      [{size: []}],
+      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+      [{'list': 'ordered'}, {'list': 'bullet'}, 
+       {'indent': '-1'}, {'indent': '+1'}],
+      ['link', 'image', 'video'],
+      ['clean']
+    ],
+    clipboard: {
+      // toggle to add extra line breaks when pasting HTML:
+      matchVisual: false,
+    }
+  }
+
+  formats = [
+    'header', 'font', 'size',
+    'bold', 'italic', 'underline', 'strike', 'blockquote',
+    'list', 'bullet', 'indent',
+    'link', 'image', 'video'
+  ]
+  
+
   componentDidMount() {
     this.getAllTags();
   }
@@ -27,11 +53,6 @@ export default class createArticle extends Component {
   handleTitle(e) {
     let title = e.target.value;
     this.setState({ title })
-  }
-
-  handleContent(e) {
-    let content = e.target.value;
-    this.setState({ content });
   }
 
   handleTags(val) {
@@ -51,14 +72,14 @@ export default class createArticle extends Component {
   }
 
   createArticle() {
-    let { title, content, tag } = this.state;
+    let { title, text, tag } = this.state;
     console.log(this.state, 111);
 
     let author = 'vin_coder';
     let time = Date.now();
     let isPublish = 1;
 
-    axios.post('/api/admin/article/create', { title, content, tag, time, isPublish })
+    axios.post('/api/admin/article/create', { title, content:text, tag, time, isPublish })
       .then(response => {
         console.log(response);
       })
@@ -76,6 +97,9 @@ export default class createArticle extends Component {
     this.setState({ visible: true });
   }
 
+  handleContent(value) {
+    this.setState({ text: value })
+  }
 
 
   render() {
@@ -99,8 +123,12 @@ export default class createArticle extends Component {
               <FormItem label="标题">
                 <Input value={this.state.title} onChange={this.handleTitle.bind(this)} />
               </FormItem>
-              <FormItem label="正文">
-                <TextArea rows={12} value={this.state.content} onChange={this.handleContent.bind(this)} />
+              <FormItem label="正文" style={{'marginBottom':'100px'}}>
+                {/* <TextArea rows={12} value={this.state.content} onChange={this.handleContent.bind(this)} /> */}
+                <ReactQuill value={this.state.text} className="qul"
+                  onChange={this.handleContent.bind(this)} 
+                  modules={this.modules}
+                  formats={this.formats}/>
               </FormItem>
               <FormItem label="标签">
                 <AutoComplete
@@ -124,3 +152,34 @@ export default class createArticle extends Component {
     )
   }
 }
+
+createArticle.modules = {
+  toolbar: [
+    [{ 'header': '1'}, {'header': '2'}, { 'font': [] }],
+    [{size: []}],
+    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+    [{'list': 'ordered'}, {'list': 'bullet'}, 
+     {'indent': '-1'}, {'indent': '+1'}],
+    ['link', 'image', 'video'],
+    ['clean']
+  ],
+  clipboard: {
+    // toggle to add extra line breaks when pasting HTML:
+    matchVisual: false,
+  }
+}
+/* 
+ * Quill editor formats
+ * See https://quilljs.com/docs/formats/
+ */
+createArticle.formats = [
+  'header', 'font', 'size',
+  'bold', 'italic', 'underline', 'strike', 'blockquote',
+  'list', 'bullet', 'indent',
+  'link', 'image', 'video'
+]
+
+/* 
+ * PropType validation
+ */
+

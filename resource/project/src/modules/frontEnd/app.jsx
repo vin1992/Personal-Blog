@@ -56,7 +56,7 @@ export default class Home extends Component {
             menus.length > 0 && (<MyMenu menus={menus} context={this} />)
           }
         </div> */}
-        <div>
+        <div className="content">
           {this.props.children}
         </div>
         <Footer>

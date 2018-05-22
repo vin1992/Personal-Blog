@@ -33,13 +33,13 @@ export default class App extends Component {
               </Link>
             </Menu.Item>
             <Menu.Item key="2">
-              <Link to={`/backEnd/create/`}>
+              <Link to={`/backEnd/home/create/`}>
                 <Icon type="desktop" />
                 <span >发布文章</span>
               </Link>
             </Menu.Item>
             <Menu.Item key="1000">
-              <Link to={`/backEnd/tags/`}>
+              <Link to={`/backEnd/home/tags/`}>
                 <Icon type="desktop" />
                 <span >标签管理</span>
               </Link>
@@ -48,18 +48,18 @@ export default class App extends Component {
               key="sub1"
               title={<span><Icon type="user" /><span>文章管理</span></span>}
             >
-              <Menu.Item key="3"><Link to={`/backEnd/articleList`}>查看</Link></Menu.Item>
-              <Menu.Item key="5"><Link to={`/backEnd/garbage`}>垃圾桶</Link></Menu.Item>
+              <Menu.Item key="3"><Link to={`/backEnd/home/articleList`}>查看</Link></Menu.Item>
+              <Menu.Item key="5"><Link to={`/backEnd/home/garbage`}>垃圾桶</Link></Menu.Item>
             </SubMenu>
             <SubMenu
               key="sub2"
               title={<span><Icon type="team" /><span>权限管理</span></span>}
             >
-              <Menu.Item key="6"><Link to={`/backEnd/logger`}>登录日志</Link></Menu.Item>
-              <Menu.Item key="8"><Link to={`/backEnd/access`}>用户权限</Link></Menu.Item>
+              <Menu.Item key="6"><Link to={`/backEnd/home/logger`}>登录日志</Link></Menu.Item>
+              <Menu.Item key="8"><Link to={`/backEnd/home/access`}>用户权限</Link></Menu.Item>
             </SubMenu>
             <Menu.Item key="9">
-              <Link to={`/backEnd/person`}>
+              <Link to={`/backEnd/home/person`}>
                 <Icon type="file" />
                 <span>个人主页</span>
               </Link>
@@ -69,10 +69,9 @@ export default class App extends Component {
         <Layout>
           <Header style={{ background: '#fff', padding: 0 }} />
           <Content style={{ margin: '0 16px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
+            {/* <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>发布文章</Breadcrumb.Item>
-              {/* <Breadcrumb.Item>Bill</Breadcrumb.Item> */}
-            </Breadcrumb>
+            </Breadcrumb> */}
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
               {this.props.children}
             </div>
