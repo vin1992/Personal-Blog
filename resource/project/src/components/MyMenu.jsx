@@ -1,12 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
-import { Menu, Icon } from 'antd';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-
-const SubMenu = Menu.SubMenu;
-const MenuItemGroup = Menu.ItemGroup;
-const MenuItem = Menu.Item;
 
 export default class MyMenu extends Component {
   static propTypes = {
@@ -30,9 +24,9 @@ export default class MyMenu extends Component {
   renderParent(list) {
     return list.map((e, id) => {
       return (
-        <MenuItem key={id} >
+        <div key={id} >
           <a href="javascript:void 0" onClick={this.getArticleListById.bind(this, e)} >{e.name}</a>
-        </MenuItem>
+        </div>
       )
     })
   }
@@ -58,13 +52,9 @@ export default class MyMenu extends Component {
   render() {
     let menus = this.props.menus;
     return (
-      <Menu
-        // onClick={this.handleClick}
-        selectedKeys={[this.state.current]}
-        mode="horizontal"
-      >
+      <div>
         {menus.length > 0 && this.renderParent(menus)}
-      </Menu>
+      </div>
     )
   }
 

@@ -1,16 +1,10 @@
 
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import MyMenu from "../../components/MyMenu";
-import IconText from '../../components/IconText';
-import { Layout, Carousel, Row, Col, Avatar, Icon } from 'antd';
-import { List, Spin } from 'antd';
-import { Form, Input, Button, Checkbox } from 'antd';
+import MyMenu from '../../components/MyMenu';
 import axios from 'axios';
+import Filter from '../../support/filter';
 
-const FormItem = Form.Item;
-const { Header, Sider, Content, Footer } = Layout;
-const { Item } = List;
 
 export default class Home extends Component {
   constructor(props) {
@@ -56,52 +50,52 @@ export default class Home extends Component {
     alert('no more data');
   }
 
+  renderItem() {
+    const { list } = this.state;
+    return list.map(item => {
+      return (
+        <Link to={`frontEnd/details/${item._id}`} key={item._id}>
+          <div className="item" >
+            <h3 className="title">{item.title}</h3>
+            <p className="content">{'这是概要这是概要这是概要这是概要这是概要这是概要这是概要这是概要这是概要这是概要这是概要这是概要' || item.content}</p>
+            <div className="author">
+              <img src="http://www.gravatar.com/avatar/4a35d104523ef520dd5d9f60c7e1eeb1?s=250&d=mm&r=x" alt="" />
+              <div className="at-name">{item.author} 于 {item.tag}</div>
+              <div className="time">{Filter.formatDate(item.time)} </div>
+            </div>
+          </div>
+        </Link>
+      )
+    })
+  }
+
   render() {
     const { list, menus } = this.state;
     const { loading, loadingMore, showLoadingMore, list: _data } = this.state;
 
-    const loadMore = showLoadingMore ? (
-      <div className="loader-btn">
-        {loadingMore && <Spin />}
-        {!loadingMore && <Button onClick={this.onLoadMore.bind(this)}>查看更多</Button>}
-      </div>
-    ) : null;
 
     return (
-      <Layout>
-        <div className="menu" >
-          {
-            menus.length > 0 && (<MyMenu menus={menus} list={this.state.list} context={this} />)
-          }
+      <div className="home">
+        <div className="banner">
+          <h1>Vin_Coder`s Life</h1>
+          <h2>Learn,thought and stories</h2>
         </div>
-        <Content className="home" >
-          <Row>
-            <Col span={12} offset={5}>
-              <List
-                size="Large"
-                itemLayout="vertical"
-                dataSource={_data}
-                loading={loading}
-                loadMore={loadMore}
-                renderItem={item => (
-                  <List.Item
-                    key={item._id}
-                    actions={[<IconText type="star-o" text="156" />, <IconText type="like-o" text="156" />, <IconText type="message" text="2" />]}
-                    extra={<img width={272} alt="logo" src={item.image} />}
-                  >
-                    <List.Item.Meta
-                      avatar={<Avatar src={item.avatar} />}
-                      title={<Link to={`frontEnd/details/${item._id}`}>{item.title}</Link>}
-                      description={item.description}
-                    />
-                    {item.content}
-                  </List.Item>
-                )}
-              />
-            </Col>
-          </Row>
-        </Content>
-      </Layout>
+        <div >
+          {/* <div className="menu" >
+            {
+              menus.length > 0 && (<MyMenu menus={menus} list={this.state.list} context={this} />)
+            }
+          </div> */}
+          <div className="content" >
+            <div className="list">
+              {
+                list.length > 0 && this.renderItem()
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+
     )
   }
 }

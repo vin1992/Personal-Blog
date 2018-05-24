@@ -2,14 +2,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import axios from 'axios';
-import MyMenu from "../../components/MyMenu";
-import IconText from '../../components/IconText';
-import { Layout, Carousel, Row, Col, Avatar, Icon } from 'antd';
 import Filter from '../../support/filter';
 
-const { Header, Sider, Content, Footer } = Layout;
-
-export default class Home extends Component {
+export default class Detail extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -37,34 +32,27 @@ export default class Home extends Component {
 
   enterHTML() {
     let { details } = this.state;
-    return {__html:details.content};
+    return { __html: details.content };
   }
 
   render() {
     let { details } = this.state;
 
     return (
-      <Layout>
-        <Content className="details">
-          <Row>
-            <Col span={12} offset={5}>
-              {details && (
-                <article>
-                  <div className="art-head">
-                    <h1>{details.title}</h1>
-                    <small>author:{details.author}</small>
-                    <small>write in:{Filter.formatDate(details.time)} </small>
-                  </div>
-                  <div className="art-content">
-                    <p dangerouslySetInnerHTML={this.enterHTML()}></p>
-                  </div>
-                </article>
-              )}
+      <div className="details">
+        {details && (
+          <article>
+            <div className="art-head">
+              <h1>{details.title}</h1>
+              <span>{Filter.formatDate(details.time)} 于 {details.tag} </span>
+            </div>
+            <div className="art-content">
+              <p dangerouslySetInnerHTML={this.enterHTML()}></p>
+            </div>
+          </article>
+        )}
 
-            </Col>
-          </Row>
-        </Content>
-      </Layout>
+      </div>
     )
   }
 }

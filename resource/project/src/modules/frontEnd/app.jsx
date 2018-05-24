@@ -1,16 +1,8 @@
 
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import MyMenu from "../../components/MyMenu";
-import IconText from '../../components/IconText';
-import { Layout, Carousel, Row, Col, Avatar, Icon } from 'antd';
-import { List, Spin } from 'antd';
-import { Form, Input, Button, Checkbox } from 'antd';
 import axios from 'axios';
 
-const FormItem = Form.Item;
-const { Header, Sider, Content, Footer } = Layout;
-const { Item } = List;
 
 export default class Home extends Component {
   constructor(props) {
@@ -41,28 +33,17 @@ export default class Home extends Component {
 
 
   render() {
-    const { banner, menus } = this.state;
+    const { menus } = this.state;
 
     return (
-      <Layout className="app">
-        <Carousel>
-          {
-            banner.length > 0 &&
-            this.renderBanner()
-          }
-        </Carousel>
-        {/* <div className="menu" >
-          {
-            menus.length > 0 && (<MyMenu menus={menus} context={this} />)
-          }
-        </div> */}
+      <div className="app">
         <div className="content">
           {this.props.children}
         </div>
-        <Footer>
-          Vin Coder ©2018 Created by Vin_Coder
-        </Footer>
-      </Layout>
+        <div className="footer">
+          Vin Coder ©2018
+        </div>
+      </div>
     )
   }
 }

@@ -29,7 +29,7 @@ router.get('/list', function (req, res) {
   Article.count(searchCondition)
     .then(count => {
       responseData.total = count;
-      Article.find(searchCondition, '_id title isPublish author viewCount commentCount time coverImg', {
+      Article.find(searchCondition, '_id title isPublish author viewCount commentCount time coverImg content tag ', {
         skip: skip,
         // limit: 
       })
