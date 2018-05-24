@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import ReactQuill from 'react-quill'; // 引入 react-quill 富文本编辑器
+import ReactQuill, { Quill } from 'react-quill'; // 引入 react-quill 富文本编辑器
+import ImageResize from 'quill-image-resize-module'; // 引入 图片resize 模块
+Quill.register('modules/ImageResize', ImageResize);
+
+
 import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, Modal } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -19,17 +23,32 @@ export default class createArticle extends Component {
 
   modules = {
     toolbar: [
-      [{ 'header': '1'}, {'header': '2'}, { 'font': [] }],
-      [{size: []}],
+      [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+      [{ size: [] }],
       ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-      [{'list': 'ordered'}, {'list': 'bullet'}, 
-       {'indent': '-1'}, {'indent': '+1'}],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' },
+      { 'indent': '-1' }, { 'indent': '+1' }],
       ['link', 'image', 'video'],
       ['clean']
     ],
     clipboard: {
       // toggle to add extra line breaks when pasting HTML:
       matchVisual: false,
+    },
+    ImageResize: {
+      // ...
+      toolbarStyles: {
+        backgroundColor: 'black',
+        border: 'none',
+        color: white
+        // other camelCase styles for size display
+      },
+      toolbarButtonStyles: {
+        // ...
+      },
+      toolbarButtonSvgStyles: {
+        // ...
+      },
     }
   }
 
@@ -39,7 +58,7 @@ export default class createArticle extends Component {
     'list', 'bullet', 'indent',
     'link', 'image', 'video'
   ]
-  
+
 
   componentDidMount() {
     this.getAllTags();
@@ -79,7 +98,7 @@ export default class createArticle extends Component {
     let time = Date.now();
     let isPublish = 1;
 
-    axios.post('/api/admin/article/create', { title, content:text, tag, time, isPublish })
+    axios.post('/api/admin/article/create', { title, content: text, tag, time, isPublish })
       .then(response => {
         console.log(response);
       })
@@ -123,12 +142,12 @@ export default class createArticle extends Component {
               <FormItem label="标题">
                 <Input value={this.state.title} onChange={this.handleTitle.bind(this)} />
               </FormItem>
-              <FormItem label="正文" style={{'marginBottom':'100px'}}>
+              <FormItem label="正文" style={{ 'marginBottom': '100px' }}>
                 {/* <TextArea rows={12} value={this.state.content} onChange={this.handleContent.bind(this)} /> */}
                 <ReactQuill value={this.state.text} className="qul"
-                  onChange={this.handleContent.bind(this)} 
+                  onChange={this.handleContent.bind(this)}
                   modules={this.modules}
-                  formats={this.formats}/>
+                  formats={this.formats} />
               </FormItem>
               <FormItem label="标签">
                 <AutoComplete
@@ -155,11 +174,11 @@ export default class createArticle extends Component {
 
 createArticle.modules = {
   toolbar: [
-    [{ 'header': '1'}, {'header': '2'}, { 'font': [] }],
-    [{size: []}],
+    [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+    [{ size: [] }],
     ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-    [{'list': 'ordered'}, {'list': 'bullet'}, 
-     {'indent': '-1'}, {'indent': '+1'}],
+    [{ 'list': 'ordered' }, { 'list': 'bullet' },
+    { 'indent': '-1' }, { 'indent': '+1' }],
     ['link', 'image', 'video'],
     ['clean']
   ],

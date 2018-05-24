@@ -11,7 +11,11 @@ const port = 1024;
 let plugins = [];
 
 if (~process.argv.indexOf('--watch')) {
-  plugins = [];
+  plugins = [
+    new webpack.ProvidePlugin({
+      'window.Quill': 'quill'
+    })
+  ];
 } else {
   plugins = [
     new webpack.HotModuleReplacementPlugin(),
@@ -22,6 +26,9 @@ if (~process.argv.indexOf('--watch')) {
       chunks: [],
     }),
     new OpenBrowserPlugin({ url: `http://${host}:${port}` }),
+    new webpack.ProvidePlugin({
+      'window.Quill': 'quill'
+    })
   ];
 
 }

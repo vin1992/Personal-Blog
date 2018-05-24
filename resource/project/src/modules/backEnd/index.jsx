@@ -19,7 +19,7 @@ import Door from './door';
 
 ReactDOM.render(
   <Router history={browserHistory}>
-    <Route path="/backEnd/" component={Door}>
+    <Route path="backEnd" component={Door}>
       <Route path="home" component={App}>
         <Route path="index" component={Home} />
         <Route path="create" component={CreateArticle} />

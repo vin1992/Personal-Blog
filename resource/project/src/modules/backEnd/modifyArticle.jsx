@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import ReactQuill from 'react-quill'; // 引入 react-quill 富文本编辑器
 import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, Modal } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -9,7 +10,7 @@ const { TextArea } = Input;
 export default class ModifyArticle extends Component {
   state = {
     title: '',
-    content: '',
+    text: '',
     tag: '', // 所属标签，目前暂时是 只支持单选
     defaultTags: '',
     tags: [],
@@ -20,15 +21,37 @@ export default class ModifyArticle extends Component {
     this.getArtDetails();
   }
 
+  modules = {
+    toolbar: [
+      [{ 'header': '1'}, {'header': '2'}, { 'font': [] }],
+      [{size: []}],
+      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+      [{'list': 'ordered'}, {'list': 'bullet'}, 
+       {'indent': '-1'}, {'indent': '+1'}],
+      ['link', 'image', 'video'],
+      ['clean']
+    ],
+    clipboard: {
+      // toggle to add extra line breaks when pasting HTML:
+      matchVisual: false,
+    }
+  }
+
+  formats = [
+    'header', 'font', 'size',
+    'bold', 'italic', 'underline', 'strike', 'blockquote',
+    'list', 'bullet', 'indent',
+    'link', 'image', 'video'
+  ]
+
 
   handleTitle(e) {
     let title = e.target.value;
     this.setState({ title })
   }
 
-  handleContent(e) {
-    let content = e.target.value;
-    this.setState({ content });
+  handleContent(value) {
+    this.setState({ text:value });
   }
 
   handleTags(val) {
@@ -46,10 +69,10 @@ export default class ModifyArticle extends Component {
     axios.get(`/api/admin/article/details?id=${art_id}`)
       .then(res => {
         let { title, content, tag } = res.data.data;
-        this.setState({ title, content, defaultTags: tag });
+        this.setState({ title, text:content, defaultTags: tag });
       })
       .catch(err => {
-        this.setState({ title: '', content: '', defaultTags: '' });
+        this.setState({ title: '', text: '', defaultTags: '' });
         throw new Error(err);
       })
   }
@@ -67,14 +90,14 @@ export default class ModifyArticle extends Component {
 
   modifyArticle() {
     let id = this.props.router.params.id;
-    let { title, content, defaultTags } = this.state;
+    let { title, text, defaultTags } = this.state;
     let author = 'vin_coder';
     let time = Date.now();
     let isPublish = 1;
 
     let tag = defaultTags;
 
-    axios.post('/api/admin/article/modify', { id, title, content, tag, time, isPublish })
+    axios.post('/api/admin/article/modify', { id, title, content:text, tag, time, isPublish })
       .then(response => {
         console.log(response);
       })
@@ -107,7 +130,7 @@ export default class ModifyArticle extends Component {
             <Button key="back" onClick={this.handleOk.bind(this)}>关闭</Button>,
           ]}
         >
-          <p>{this.state.content}</p>
+          <p>{this.state.text}</p>
         </Modal>
         <Form >
           <Row>
@@ -115,8 +138,11 @@ export default class ModifyArticle extends Component {
               <FormItem label="标题">
                 <Input value={this.state.title} onChange={this.handleTitle.bind(this)} />
               </FormItem>
-              <FormItem label="正文">
-                <TextArea rows={12} value={this.state.content} onChange={this.handleContent.bind(this)} />
+              <FormItem label="正文" style={{'marginBottom':'100px'}}>
+                <ReactQuill value={this.state.text} className="qul"
+                  onChange={this.handleContent.bind(this)} 
+                  modules={this.modules}
+                  formats={this.formats}/>
               </FormItem>
               <FormItem label="标签">
                 <AutoComplete

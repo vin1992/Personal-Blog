@@ -20,6 +20,8 @@ export default class App extends Component {
     axios.get('/api/admin/user/userInfo').then(response => {
       if (response.code == 1) {
       this.props.router.push({ pathname: '/backEnd/login' });        
+      }else {
+      this.props.router.push({ pathname: '/backEnd/home' });                
       }
     }).catch(err => {
       this.props.router.push({ pathname: '/backEnd/login' });

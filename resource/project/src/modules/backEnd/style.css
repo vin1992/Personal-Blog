@@ -17,6 +17,11 @@
   height: 500px;
 }
 
+.createArticle .ql-snow .ql-picker-label::before {
+  position: absolute;
+}
+
+
 .article-list {
   width: 100%;
   padding: 10px;

@@ -35,6 +35,11 @@ export default class Home extends Component {
     })
   }
 
+  enterHTML() {
+    let { details } = this.state;
+    return {__html:details.content};
+  }
+
   render() {
     let { details } = this.state;
 
@@ -51,7 +56,7 @@ export default class Home extends Component {
                     <small>write in:{Filter.formatDate(details.time)} </small>
                   </div>
                   <div className="art-content">
-                    <p>{details.content}</p>
+                    <p dangerouslySetInnerHTML={this.enterHTML()}></p>
                   </div>
                 </article>
               )}
