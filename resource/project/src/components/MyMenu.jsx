@@ -24,9 +24,7 @@ export default class MyMenu extends Component {
   renderParent(list) {
     return list.map((e, id) => {
       return (
-        <div key={id} >
-          <a href="javascript:void 0" onClick={this.getArticleListById.bind(this, e)} >{e.name}</a>
-        </div>
+        <a className="nav-itm" key={id} onClick={this.getArticleListById.bind(this, e)} >{e.name}</a>
       )
     })
   }
@@ -52,7 +50,7 @@ export default class MyMenu extends Component {
   render() {
     let menus = this.props.menus;
     return (
-      <div>
+      <div className="nav-ls">
         {menus.length > 0 && this.renderParent(menus)}
       </div>
     )

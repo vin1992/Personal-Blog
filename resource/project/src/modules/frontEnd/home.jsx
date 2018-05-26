@@ -1,17 +1,14 @@
 
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import MyMenu from '../../components/MyMenu';
 import axios from 'axios';
 import Filter from '../../support/filter';
-
 
 export default class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
       current: '',
-      list: [],
       menus: [],
       loading: false,
       loadingMore: false,
@@ -19,39 +16,12 @@ export default class Home extends Component {
     }
     this.timer = 0;
     this.request = null;
-  }
-  componentDidMount() {
-    this.setState({ loading: true, }, this.getArticleList());
-    this.getAllTags();
-  }
 
-  getAllTags() {
-    axios.get('/api/ajax/getTags').then(response => {
-      let tags = response.data.data;
-      this.setState({ menus: tags });
-    }).catch(err => {
-      throw new Error(err);
-    })
   }
-
-
-
-  getArticleList() {
-    axios.get('/api/ajax/list?isPublish=true').then(response => {
-      let list = response.data.data.list;
-      console.log(list);
-      this.setState({ list, loading: false });
-    }).catch(err => {
-      throw new Error(err);
-    })
-  }
-
-  onLoadMore() {
-    alert('no more data');
-  }
+  componentDidMount() { }
 
   renderItem() {
-    const { list } = this.state;
+    const { articleList: list } = this.props;
     return list.map(item => {
       return (
         <Link to={`frontEnd/details/${item._id}`} key={item._id}>
@@ -70,31 +40,26 @@ export default class Home extends Component {
   }
 
   render() {
-    const { list, menus } = this.state;
-    const { loading, loadingMore, showLoadingMore, list: _data } = this.state;
-
-
+    console.log(this.props, 'router');
     return (
       <div className="home">
         <div className="banner">
           <h1>Vin_Coder`s Life</h1>
           <h2>Learn,thought and stories</h2>
         </div>
-        <div >
-          {/* <div className="menu" >
+        <div className="content" >
+          <div className="list">
             {
-              menus.length > 0 && (<MyMenu menus={menus} list={this.state.list} context={this} />)
+              this.props.articleList.length > 0 && this.renderItem()
             }
-          </div> */}
-          <div className="content" >
-            <div className="list">
-              {
-                list.length > 0 && this.renderItem()
-              }
-            </div>
           </div>
         </div>
+        <div className="footer">
+          Vin Coder ©2018
+        </div>
+
       </div>
+
 
     )
   }

@@ -40,7 +40,7 @@ export default class createArticle extends Component {
       toolbarStyles: {
         backgroundColor: 'black',
         border: 'none',
-        color: white
+        color: 'white'
         // other camelCase styles for size display
       },
       toolbarButtonStyles: {

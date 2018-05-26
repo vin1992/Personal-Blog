@@ -51,6 +51,9 @@ export default class Detail extends Component {
             </div>
           </article>
         )}
+        <div className="footer">
+          Vin Coder ©2018
+        </div>
 
       </div>
     )

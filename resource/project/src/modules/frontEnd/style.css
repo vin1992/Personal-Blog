@@ -4,24 +4,110 @@
   box-sizing: border-box;
   font-family:  "Open Sans", sans-serif;
 }
+
+/* app 组件样式 */
 .app {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 100vh;
+  justify-content: stretch;
 }
-.app .content {
+.app .wrap {
   flex:1;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
 }
-.app .footer {
+.wrap .content {
+  flex:1;
+  order:1
+}
+.wrap .side-bar {
+  /* flex-basis: 25%; */
+  background-color: #111;
+  color:#fff;
+  order:3;
+  width:356px;
+  opacity: 1;
+  transition: width .5s, opacity .5s;
+}
+
+.wrap .side-bar.menu-hide {
+  width:0px;
+  opacity: 0;
+}
+
+.wrap .side-bar.menu-show {
+  width:356px;
+  opacity: 1;
+}
+
+.wrap .switch-btn {
+  position: absolute;
+  top: 3%;
+  right: 30%;
+  width: 100px;
+  height: 38px;
+  border: 1px solid #BFC8CD;
+  color:#9EABB3;
+  border-radius: 5px;
+  line-height: 38px;
   text-align: center;
-  padding:20px;
-  font-family: "Open Sans", sans-serif;
-  color: #BBC7CC; 
+  display: flex;
+  cursor: pointer;
 }
-.home {
+
+.wrap .switch-btn .icon {
+  flex-basis: 34%;
+  font-size: 16px;
+  line-height: 36px;
+}
+.wrap .switch-btn .menu  {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 100;
+  font-size: 12px;
+}
+.nav-box {
+  overflow: hidden;  
+}
+.nav-box .nav-title {
+  padding: 3.2rem  7% 0;
+  font-size: 1.4rem;
+}
+.nav-box .nav-ls {
+  padding: 0.5rem 7%;
+  counter-reset: item;  
+}
+.nav-box .nav-ls .nav-itm {
+  display: flex;
+  color:#B8B8B8;
+  font-family: "Merriweather", serif;
+  font-size: 1.4rem;
+  max-width: 18rem;
+  overflow: hidden;
+}
+.nav-box .nav-ls .nav-itm::before {
+  display: inline-block;
+  content:"................................................................................................................";
+  order:2;
+}
+.nav-box .nav-ls .nav-itm::after {
+  content: counter(item, lower-roman);
+  counter-increment: item;
+  position: absolute;
+  right: 11px;
+}
+
+
+/* 首页样式 */
+.home,.details {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;  
 }
 .home .banner {
+  flex:0 0 50%;
   width: 100%;
   height: 300px;
   background-color:#f5f8fa;
@@ -93,6 +179,14 @@
   border-left:1px solid rgb(224, 224, 224);
   width:1px;
   height: 20px;
+}
+
+.home .footer,.details .footer {
+  text-align: center;
+  padding:20px;
+  font-family: "Open Sans", sans-serif;
+  color: #BBC7CC; 
+  order:3;
 }
 
 .details {
