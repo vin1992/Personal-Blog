@@ -3,14 +3,20 @@ const express = require('express');
 const Article = require('../../models/article');
 const Tags = require('../../models/tags');
 let { responseClient } = require('../util');
+let dbHelper = require('../support');
 
 const router = express.Router();
+
+
+const fileApi = require('./file');
 
 //获取文章列表
 router.get('/list', function (req, res) {
   console.log(req.query);
+  let size = Number(req.query.size) || 5;
   let tag = null || req.query.tag;
-  let isPublish = req.query.isPublish;
+  let isPublish = req.query.isPublish || true;
+  let page = req.query.page;
   let searchCondition = {
     isPublish,
     isDel: false, // 未删除的才筛选出来
@@ -21,21 +27,21 @@ router.get('/list', function (req, res) {
   if (isPublish === 'false') {
     searchCondition = null
   }
-  let skip = (req.query.pageNum - 1) < 0 ? 0 : (req.query.pageNum - 1) * 5;
+  let skip = page < 1 ? 1 : (page - 1) * size;
   let responseData = {
     total: 0,
-    list: []
+    list: [],
+    page: page,
+    size: size,
   };
   Article.count(searchCondition)
     .then(count => {
       responseData.total = count;
-      Article.find(searchCondition, '_id title isPublish author viewCount commentCount time coverImg content tag ', {
+      Article.find(searchCondition, null, {
         skip: skip,
-        // limit: 
+        limit: size,
       })
-        // Article.find()
         .then(result => {
-          console.log(result, 'shit');
           responseData.list = result;
           responseClient(res, 200, 0, 'success', responseData);
         }).catch(err => {
@@ -49,7 +55,6 @@ router.get('/list', function (req, res) {
 // 获取文章详情
 
 router.get('/details', function (req, res) {
-  console.log(req.query);
   let { id } = req.query;
 
   Article.findOne({ _id: id }, '_id title content tag time author')
@@ -66,12 +71,10 @@ router.get('/details', function (req, res) {
 })
 
 
-
-
 router.get('/getTags', function (req, res) {
   Tags.find(null, 'name').then(result => {
     if (result) {
-      console.log(result, '返回结果');
+      console.log(result, '小程序请求');
       responseClient(res, 200, 0, '查询成功', result);
     } else {
       responseClient(res, 200, 1, '无数据');
@@ -82,5 +85,6 @@ router.get('/getTags', function (req, res) {
 })
 
 
+router.use('/file', fileApi);
 
 module.exports = router;

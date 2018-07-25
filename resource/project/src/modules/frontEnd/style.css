@@ -1,83 +1,114 @@
-* {
-  margin:0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family:  "Open Sans", sans-serif;
-}
+@import '../../less/global.css';
 
-/* app 组件样式 */
-.app {
-  display: flex;
-  flex-direction: column;
-  justify-content: stretch;
-}
-.app .wrap {
-  flex:1;
-  display: flex;
-  justify-content: space-between;
+.home {
+  color:rgba(0,0,0,0.8);
   position: relative;
 }
-.wrap .content {
-  flex:1;
-  order:1
-}
-.wrap .side-bar {
-  /* flex-basis: 25%; */
-  background-color: #111;
-  color:#fff;
-  order:3;
-  width:356px;
-  opacity: 1;
-  transition: width .5s, opacity .5s;
-}
 
-.wrap .side-bar.menu-hide {
-  width:0px;
-  opacity: 0;
-}
-
-.wrap .side-bar.menu-show {
-  width:356px;
-  opacity: 1;
-}
-
-.wrap .switch-btn {
-  position: absolute;
-  top: 3%;
-  right: 30%;
-  width: 100px;
-  height: 38px;
-  border: 1px solid #BFC8CD;
-  color:#9EABB3;
-  border-radius: 5px;
-  line-height: 38px;
+.home .banner {
   text-align: center;
-  display: flex;
+}
+
+.home .banner h1 {
+  color:rgba(0,0,0,0.8);
+  font-family: "Open Sans", sans-serif;
+  font-size:2em;
+}
+.home .banner h2 {
+  color:rgba(0,0,0,0.5);
+  font-family: "Merriweather", serif;
+  font-size:1.8em;
+}
+
+@media (max-width:768px) {
+  .home .banner {
+    padding: 4rem 2rem;
+  }
+  .home .banner h1 {
+    font-size:1.5em;
+  }
+  .home .banner h2 {
+    font-size:1.3em;
+  }
+}
+
+.list .item {
+  border:none;
+  border-bottom: 1px solid rgb(230, 230, 230);
+  border-radius: 0;
+}
+.list .item .title{
+  font-family: "Open Sans", sans-serif;
+  color:rgba(0,0,0,0.8);
+}
+
+.list .item .desc {
+  color:#3A4145;
+  font-family: "Merriweather", serif;
+}
+
+.list .item .author img {
+  width:1.2rem;
+  height: 1.2rem;
+  border-radius: 50%;
+}
+
+.home .container {
+  width:50%;
+}
+
+@media (max-width:768px) {
+  .home .container {
+    width:100%;
+  }
+}
+.home .container .pager {
+  width: 100%;
+  height: 3rem;
+  margin-top:1rem;
+}
+.home .container .pager div {
+  display: inline-block;
+  width: auto;
+  float:left;
+  color:#889093;
+  border-color:#98a0a4;
+  padding: 5px 8px;
+  border-radius:5px;
+  border:1px solid #889093;
   cursor: pointer;
 }
+.home .container .pager .next {
+  float: right;
+  text-align: right;
+}
 
-.wrap .switch-btn .icon {
-  flex-basis: 34%;
-  font-size: 16px;
-  line-height: 36px;
+.home .footer {
+  padding:1rem 0;
+  width: 100%;
+  text-align: center;
 }
-.wrap .switch-btn .menu  {
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 100;
-  font-size: 12px;
+
+#panel .toggle-menu {
+  position: absolute;
+  top:1rem;
+  right: 1rem;
+  z-index: 2;
 }
-.nav-box {
-  overflow: hidden;  
+
+.home .menu {
+  background-color:#111;
 }
-.nav-box .nav-title {
+.menu .nav-box .nav-title {
   padding: 3.2rem  7% 0;
   font-size: 1.4rem;
+  color:#fff;
 }
-.nav-box .nav-ls {
+.menu .nav-box .nav-ls {
   padding: 0.5rem 7%;
   counter-reset: item;  
 }
-.nav-box .nav-ls .nav-itm {
+.menu .nav-box .nav-ls .nav-itm {
   display: flex;
   color:#B8B8B8;
   font-family: "Merriweather", serif;
@@ -85,132 +116,51 @@
   max-width: 18rem;
   overflow: hidden;
 }
-.nav-box .nav-ls .nav-itm::before {
+.menu .nav-box .nav-ls .nav-itm::before {
   display: inline-block;
   content:"................................................................................................................";
   order:2;
 }
-.nav-box .nav-ls .nav-itm::after {
+.menu .nav-box .nav-ls .nav-itm::after {
   content: counter(item, lower-roman);
   counter-increment: item;
   position: absolute;
   right: 11px;
 }
 
-
-/* 首页样式 */
-.home,.details {
-  position: relative;
+.details {
+  padding: 10px;
+  color:#2E2E2E;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  min-height: 100vh;  
-}
-.home .banner {
-  flex:0 0 50%;
-  width: 100%;
-  height: 300px;
-  background-color:#f5f8fa;
-  color:rgba(0,0,0,0.8);
-  text-align: center;
-  padding-top:100px;
-}
-.home .banner h1 {
-  font-weight: 100;
-  margin-bottom: 10px;
-  font-size: 30px;
-}
-.home .banner h2 {
-  font-family: "Merriweather", serif;
-  color:rgba(0,0,0,0.5);
-}
-.home .list {
-  margin: 0 auto;
-  width: 50%;
-}
-.home .list .item {
-  padding: 20px 0;
-
-  border-bottom: rgb(241, 241, 241) 1px solid
-}
-.home .list .item h3 {
-  font-weight: 100;
-  margin-bottom: 10px;
-  font-size: 30px;
-}
-.home .list .item p {
-  font-family: "Merriweather", serif;
-  color:rgba(0,0,0,0.5);
-}
-.home .list .item p::after {
-  content: " ";
-  position: absolute;
-  width: 7px;
-  height: 7px;
-  border-radius: 100%;
-  display: block;
-  left: 50%;
-  border: 1px solid rgb(241, 241, 241);
-  margin-top:30px;
-  background-color: white;
-  box-shadow: 0px 0px 4px 0px rgb(235, 235, 235); 
-}
-
-.home .list .item .author {
-  display: flex;
-  color:#9EABB3;
-  font-family: "Open Sans", sans-serif;
-}
-.list .item .author > img {
-  width:20px;
-  height: 20px;
-  border-radius: 100%;
-  margin-right: 10px;
-}
-
-.list .item .author .time {
-  margin-left: 25px;
-  position: relative;
-}
-.list .item .author .time::before {
-  content: " ";
-  position: absolute;
-  left: -15px;
-  border-left:1px solid rgb(224, 224, 224);
-  width:1px;
-  height: 20px;
-}
-
-.home .footer,.details .footer {
-  text-align: center;
-  padding:20px;
-  font-family: "Open Sans", sans-serif;
-  color: #BBC7CC; 
-  order:3;
-}
-
-.details {
-  width: 50%;
-  margin:0 auto;
+  justify-content: stretch;
+  height: 100vh;
 }
 .details article {
-  margin-top: 100px;
-}
-.details article .art-head h1 {
-  font-weight: 100;
-  margin-bottom: 10px;
-  font-size: 3rem;  
+  flex:1;
 }
 
-article .art-head span {
+.details article .art-head {
+  margin-top: 50px;
+
+}
+.details article .art-head h1 {
+  font-family: "Open Sans", sans-serif;
+}
+.details article .art-head span {
   color:#9EABB3;
   font-family: "Open Sans", sans-serif;
 }
 
-article .art-content {
-  margin-top:60px;
+.details article .art-content {
   font-family: "Merriweather", serif;
-  font-size: 1rem;
+}
+
+.details .footer {
+  position: relative;
+  bottom: 0; 
+  text-align: center;
+  width: 100%;
 }
 
 

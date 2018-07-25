@@ -18,7 +18,7 @@ export default class createArticle extends Component {
     tag: '', // 所属标签，目前暂时是 只支持单选
     dataSource: [],
     visible: false,
-
+    description: ''
   }
 
   modules = {
@@ -79,6 +79,15 @@ export default class createArticle extends Component {
     this.setState({ tag })
   }
 
+  handleDescription(e) {
+    let description = e.target.value;
+    this.setState({ description })
+  }
+
+  handleContent(value) {
+    this.setState({ text: value })
+  }
+
   // 获取标签
   getAllTags() {
     axios.get('/api/admin/tags/getTags').then(res => {
@@ -91,14 +100,14 @@ export default class createArticle extends Component {
   }
 
   createArticle() {
-    let { title, text, tag } = this.state;
+    let { title, text, tag, description } = this.state;
     console.log(this.state, 111);
 
     let author = 'vin_coder';
     let time = Date.now();
     let isPublish = 1;
 
-    axios.post('/api/admin/article/create', { title, content: text, tag, time, isPublish })
+    axios.post('/api/admin/article/create', { title, content: text, tag, time, description, isPublish })
       .then(response => {
         console.log(response);
       })
@@ -115,11 +124,6 @@ export default class createArticle extends Component {
     axios.post('/api/admin/article/details', {})
     this.setState({ visible: true });
   }
-
-  handleContent(value) {
-    this.setState({ text: value })
-  }
-
 
   render() {
     const dataSource = this.state.dataSource;
@@ -141,6 +145,9 @@ export default class createArticle extends Component {
             <Col>
               <FormItem label="标题">
                 <Input value={this.state.title} onChange={this.handleTitle.bind(this)} />
+              </FormItem>
+              <FormItem label="描述">
+                <Input value={this.state.description} onChange={this.handleDescription.bind(this)} />
               </FormItem>
               <FormItem label="正文" style={{ 'marginBottom': '100px' }}>
                 {/* <TextArea rows={12} value={this.state.content} onChange={this.handleContent.bind(this)} /> */}
@@ -171,34 +178,4 @@ export default class createArticle extends Component {
     )
   }
 }
-
-createArticle.modules = {
-  toolbar: [
-    [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
-    [{ size: [] }],
-    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-    [{ 'list': 'ordered' }, { 'list': 'bullet' },
-    { 'indent': '-1' }, { 'indent': '+1' }],
-    ['link', 'image', 'video'],
-    ['clean']
-  ],
-  clipboard: {
-    // toggle to add extra line breaks when pasting HTML:
-    matchVisual: false,
-  }
-}
-/* 
- * Quill editor formats
- * See https://quilljs.com/docs/formats/
- */
-createArticle.formats = [
-  'header', 'font', 'size',
-  'bold', 'italic', 'underline', 'strike', 'blockquote',
-  'list', 'bullet', 'indent',
-  'link', 'image', 'video'
-]
-
-/* 
- * PropType validation
- */
 

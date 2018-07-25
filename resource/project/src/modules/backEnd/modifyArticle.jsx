@@ -13,6 +13,7 @@ export default class ModifyArticle extends Component {
     text: '',
     tag: '', // 所属标签，目前暂时是 只支持单选
     defaultTags: '',
+    description: '',
     tags: [],
     visible: false,
   }
@@ -23,11 +24,11 @@ export default class ModifyArticle extends Component {
 
   modules = {
     toolbar: [
-      [{ 'header': '1'}, {'header': '2'}, { 'font': [] }],
-      [{size: []}],
+      [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+      [{ size: [] }],
       ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-      [{'list': 'ordered'}, {'list': 'bullet'}, 
-       {'indent': '-1'}, {'indent': '+1'}],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' },
+      { 'indent': '-1' }, { 'indent': '+1' }],
       ['link', 'image', 'video'],
       ['clean']
     ],
@@ -51,7 +52,12 @@ export default class ModifyArticle extends Component {
   }
 
   handleContent(value) {
-    this.setState({ text:value });
+    this.setState({ text: value });
+  }
+
+  handleDescription(e) {
+    let description = e.target.value;
+    this.setState({ description })
   }
 
   handleTags(val) {
@@ -69,10 +75,10 @@ export default class ModifyArticle extends Component {
     axios.get(`/api/admin/article/details?id=${art_id}`)
       .then(res => {
         let { title, content, tag } = res.data.data;
-        this.setState({ title, text:content, defaultTags: tag });
+        this.setState({ title, text: content, defaultTags: tag, description });
       })
       .catch(err => {
-        this.setState({ title: '', text: '', defaultTags: '' });
+        this.setState({ title: '', text: '', defaultTags: '', description: '' });
         throw new Error(err);
       })
   }
@@ -97,7 +103,7 @@ export default class ModifyArticle extends Component {
 
     let tag = defaultTags;
 
-    axios.post('/api/admin/article/modify', { id, title, content:text, tag, time, isPublish })
+    axios.post('/api/admin/article/modify', { id, title, content: text, tag, description, time, isPublish })
       .then(response => {
         console.log(response);
       })
@@ -138,11 +144,14 @@ export default class ModifyArticle extends Component {
               <FormItem label="标题">
                 <Input value={this.state.title} onChange={this.handleTitle.bind(this)} />
               </FormItem>
-              <FormItem label="正文" style={{'marginBottom':'100px'}}>
+              <FormItem label="描述">
+                <Input value={this.state.description} onChange={this.handleDescription.bind(this)} />
+              </FormItem>
+              <FormItem label="正文" style={{ 'marginBottom': '100px' }}>
                 <ReactQuill value={this.state.text} className="qul"
-                  onChange={this.handleContent.bind(this)} 
+                  onChange={this.handleContent.bind(this)}
                   modules={this.modules}
-                  formats={this.formats}/>
+                  formats={this.formats} />
               </FormItem>
               <FormItem label="标签">
                 <AutoComplete

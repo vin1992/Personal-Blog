@@ -6,6 +6,7 @@ let mongoose = require('mongoose');
 
 const table_struct = {
   title: String, // 文章标题
+  description: String,
   content: String,
   time: Number,
   author: String,

@@ -13,7 +13,10 @@ const config = {
 
   //数据库服务
   dbHost: 'localhost',
-  dbPort: '27017'
+  dbPort: '27017',
+
+  startMode: 'develop', // 启动模式
+
 }
 
 module.exports = config;

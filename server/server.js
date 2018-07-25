@@ -29,6 +29,7 @@ app.use('/api', (req, res) => {
   proxy.web(req, res, { target })
 })
 
+
 app.use(compression());
 app.use(favicon(path.join(__dirname, "../resource/project/dist/favicon.ico")));
 
@@ -60,5 +61,5 @@ app.listen(port, (err) => {
     console.log(`===>  open http://${config.host}:${config.port} in a browser to view the app`);
   }
 });
-
+console.log('aaa');
 

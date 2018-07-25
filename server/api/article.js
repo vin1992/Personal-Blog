@@ -4,7 +4,7 @@ let { responseClient } = require('../util');
 const router = express.Router();
 
 router.post('/create', function (req, res) {
-  let { title, content, time, tag, isPublish } = req.body;
+  let { title, content, time, tag, isPublish, description } = req.body;
 
   let _tag = tag;
   const author = 'vin_coder' || req.session.userInfo.username;
@@ -22,6 +22,7 @@ router.post('/create', function (req, res) {
     author,
     coverImg,
     tag: _tag,
+    description
   }
 
   let tempArticle = new Article(fields);
@@ -45,7 +46,7 @@ router.get('/list', function (req, res) {
   Article.count({})
     .then(count => {
       responseData.total = count;
-      Article.find({ isDel: getDel }, '_id title isPublish author viewCount commentCount time tag content')
+      Article.find({ isDel: getDel }, null)
         .then(result => {
           console.log(result, 'shit');
           responseData.list = result;
@@ -112,10 +113,10 @@ router.get('/delete', function (req, res) {
 })
 
 router.post('/modify', function (req, res) {
-  let { id, title, content, tag } = req.body;
+  let { id, title, content, tag, description } = req.body;
 
   Article.where({ _id: id })
-    .update({ title, content, tag })
+    .update({ title, content, tag, description })
     .then(result => {
       if (result.n === 1) {
         responseClient(res, 200, 0, '修改成功!')

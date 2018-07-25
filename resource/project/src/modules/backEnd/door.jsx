@@ -19,12 +19,12 @@ export default class App extends Component {
     // 判断 当前session中是否存在用户信息，否就跳到登录页
     axios.get('/api/admin/user/userInfo').then(response => {
       if (response.code == 1) {
-      this.props.router.push({ pathname: '/backEnd/login' });        
-      }else {
-      this.props.router.push({ pathname: '/backEnd/home' });                
+        this.props.router.push({ pathname: '/backEnd/login' });
+      } else {
+        this.props.router.push({ pathname: '/backEnd/home' });
       }
     }).catch(err => {
-      this.props.router.push({ pathname: '/backEnd/login' });
+      this.props.router.replace({ pathname: '/backEnd/login' });
     });
   }
 

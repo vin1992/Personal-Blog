@@ -4,6 +4,8 @@ import "./style.css";
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';
+import Loadable from 'react-loadable';
+
 import App from './app';
 import Home from './home';
 import CreateArticle from './createArticle';
@@ -29,7 +31,7 @@ ReactDOM.render(
         <Route path="garbage" component={Garbage} />
         <Route path="tags" component={Tags} />
       </Route>
-      <Route path="login" component={Login} />      
+      <Route path="login" component={Login} />
     </Route>
   </Router>,
   document.querySelector('#root')

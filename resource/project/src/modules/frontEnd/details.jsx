@@ -22,7 +22,6 @@ export default class Detail extends Component {
 
   getArticleDetails(id) {
     axios.get(`/api/ajax/details?id=${id}`).then(res => {
-      console.log(res);
       let details = res.data.data;
       this.setState({ details });
     }).catch(err => {
