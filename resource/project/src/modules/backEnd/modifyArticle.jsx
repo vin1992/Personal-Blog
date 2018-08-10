@@ -74,11 +74,11 @@ export default class ModifyArticle extends Component {
     let art_id = this.props.router.params.id;
     axios.get(`/api/admin/article/details?id=${art_id}`)
       .then(res => {
-        let { title, content, tag } = res.data.data;
+        let { title, content, tag, description } = res.data.data;
         this.setState({ title, text: content, defaultTags: tag, description });
       })
       .catch(err => {
-        this.setState({ title: '', text: '', defaultTags: '', description: '' });
+        this.setState({ title: '', text: '', defaultTags: '', tag: '', description: '' });
         throw new Error(err);
       })
   }
@@ -96,7 +96,7 @@ export default class ModifyArticle extends Component {
 
   modifyArticle() {
     let id = this.props.router.params.id;
-    let { title, text, defaultTags } = this.state;
+    let { title, text, defaultTags, description } = this.state;
     let author = 'vin_coder';
     let time = Date.now();
     let isPublish = 1;
@@ -108,7 +108,6 @@ export default class ModifyArticle extends Component {
         console.log(response);
       })
       .catch(error => {
-
         console.log(error);
       })
   }

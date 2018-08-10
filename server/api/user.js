@@ -22,7 +22,7 @@ router.post('/register', function (req, res) {
       responseClient(res, 200, 1, '该用户已存在，请登陆');
     }
   }).catch(err => {
-    responseClient(res,500,1,)
+    responseClient(res, 500, 1, )
   })
 })
 
@@ -38,7 +38,7 @@ router.get('/login', function (req, res) {
       // 存session
       req.session.userInfo = data;
 
-      console.log(req.session.userInfo,'sas');
+      console.log(req.session.userInfo, 'sas');
       responseClient(res, 200, 0, '登录成功', data);
     } else {
       responseClient(res, 500, 1, '登陆失败');
@@ -47,12 +47,12 @@ router.get('/login', function (req, res) {
   })
 })
 
-router.get('/userInfo',function(req,res) {
+router.get('/userInfo', function (req, res) {
   if (req.session.userInfo) {
     let data = req.session.userInfo;
-    responseClient(res, 200, 0, ' 可以登录', data);    
-  }else {
-    responseClient(res, 500, 1, '请重新登录');    
+    responseClient(res, 200, 0, ' 可以登录', data);
+  } else {
+    responseClient(res, 500, 1, '请重新登录');
   }
 })
 

@@ -22,9 +22,9 @@ const entries = () => {
     }
 
   })
+  console.log(result);
   return result;
 }
-
 
 module.exports = (env, args) => {
   env = env || process.env.NODE_ENV;
@@ -32,13 +32,10 @@ module.exports = (env, args) => {
   console.dir(env, config.plugin, '环境');
 
   return {
-    entry: Object.assign(entries(), {
-      vendor: ['react', 'react-dom', 'react-router', 'axios', 'bootstrap'],
-      antd: ['antd'],
-    }),
+    entry: entries(),
     output: {
       filename: '[name].bundle.js',
-      // chunkFilename: '[name].bundle.js',
+      // chunkFilename: '[name].[chunkhash].bundle.js',
       path: path.join(__dirname, 'dist'),
       publicPath: '/' // 存放静态资源文件
     },
@@ -54,9 +51,8 @@ module.exports = (env, args) => {
       }, {
         test: /\.css$/,
         use: [
-          // MiniCssExtractPlugin.loader,
           'style-loader',
-          { loader: 'css-loader', options: { importLoaders: 1 } },
+          'css-loader',
           'postcss-loader'
         ]
       }, {
@@ -72,23 +68,12 @@ module.exports = (env, args) => {
         ]
       },]
     },
-    // optimization: {
-    //   splitChunks: {
-    //     minChunks: 1,
-    //     minSize: 30000,
-    //     cacheGroups: {
-    //       styles: {
-    //         name: 'styles',
-    //         test: /\.css$/,
-    //         chunks: 'all',
-    //         enforce: true
-    //       }
-    //     }
-    //   },
-    //   runtimeChunk: {
-    //     name: "manifest"
-    //   }
-    // },
+    optimization: {
+      splitChunks: {
+        name: 'vendor',
+        chunks: 'all'
+      },
+    },
     devtool: config.devtool,
     devServer: {
       host: '127.0.0.1',
@@ -114,20 +99,13 @@ module.exports = (env, args) => {
   }
 }
 
-
 function Config(env) {
   return {
     port: 1234,
     get plugins() {
       if (env == 'production') {
         return [  // 生产环境
-          new webpack.DllReferencePlugin({ // 
-            context: __dirname,
-            manifest: require('./dist/vendors-manifest.json')
-          }),
-          new MiniCssExtractPlugin({
-            filename: "[name].css",
-          }),
+          new CleanWebpackPlugin(['dist']),
           new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production')
           }),
@@ -137,19 +115,19 @@ function Config(env) {
         ]
       }
       return [  // 开发环境
-        new MiniCssExtractPlugin({
-          filename: "[name].css",
-        }),
         new CleanWebpackPlugin(['dist']),
-        // new webpack.HotModuleReplacementPlugin(),
-        new webpack.DefinePlugin({
-          'process.env.NODE_ENV': JSON.stringify(env || 'development')
-        }),
         new HtmlWebpackPlugin({
           title: 'vin-coder blog',
           favicon: 'favicon.ico',
           template: "./template.html",
+          chunk: [],
+          inject: false,
         }),
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.DefinePlugin({
+          'process.env.NODE_ENV': JSON.stringify(env || 'development')
+        }),
+
         new webpack.ProvidePlugin({
           'window.Quill': 'quill'
         }),

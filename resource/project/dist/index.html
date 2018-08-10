@@ -8,15 +8,16 @@
     <title>
       vin-coder blog
     </title>
-  <link rel="shortcut icon" href="/favicon.ico"></head>
+  </head>
 
   <body>
     <div id="root"></div>
-  <script type="text/javascript" src="/modules/backEnd.bundle.js"></script><script type="text/javascript" src="/modules/frontEnd.bundle.js"></script><script type="text/javascript" src="/vendor.bundle.js"></script><script type="text/javascript" src="/antd.bundle.js"></script></body>
+  </body>
   <!-- 以下脚本是调试使用，正式需要写明需要的脚本 -->
+  <script src="/vendor.bundle.js"></script>
   <script>
     var bundle = location.pathname.split('/')[1];
-    document.write('<script src="/modules/' + bundle + '.bundle.js"><\/script>');
+    document.write('<script src="/modules/' + (bundle || 'frontEnd') + '.bundle.js"><\/script>');
   </script>
 
 </html>

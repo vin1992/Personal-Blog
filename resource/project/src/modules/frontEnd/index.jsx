@@ -38,8 +38,9 @@ const store = createStore(reducer);
 ReactDOM.render(
   // <Provider store={store}>
   <Router history={browserHistory}>
-    <Route path="frontEnd" component={App}>
+    <Route path="/" component={App}>
       <IndexRoute component={Home} />
+      <Route path="frontEnd" component={Home} />
       <Route path="details/:categoryId" component={Details} />
     </Route>
   </Router>,

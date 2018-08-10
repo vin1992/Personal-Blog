@@ -132,7 +132,7 @@ router.get('/details', function (req, res) {
   console.log(req.query);
   let { id } = req.query;
 
-  Article.findOne({ _id: id }, '_id title content tag time ')
+  Article.findOne({ _id: id }, '_id title content tag time description')
     .then(result => {
       if (result) {
         responseClient(res, 200, 0, '获取成功', result);

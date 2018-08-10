@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import axios from 'axios';
 import MyMenu from '../../components/MyMenu';
+import Pagination from '../../components/Pagination';
 import Filter from '../../support/filter';
 import Slideout from 'slideout';
 import { bindActionCreators } from 'redux';
@@ -31,7 +32,7 @@ export default class Home extends Component {
       menus: [],
       list: [],
       page: 1,
-      size: 3,
+      size: 2,
       total: 0,
     }
     this.timer = 0;
@@ -39,15 +40,8 @@ export default class Home extends Component {
     this.slideout = null;
   }
   componentDidMount() {
-    console.log('aaa');
-    // const { menus, actions } = this.props;
-    // if (menus.length == 0) {
-    //   actions.getAllMenu();
-    // }
-
-    this.getAllTags();
-    this.getArticleList();
-    console.log(Slideout, 'sss', document.getElementById('panel'));
+    let { page, size } = this.state;
+    this.getArticleList(page, size);
     this.slideout = new Slideout({
       'panel': document.getElementById('panel'),
       'menu': document.getElementById('menu'),
@@ -55,62 +49,18 @@ export default class Home extends Component {
       'tolerance': 70,
       'side': 'right'
     });
-    axios.get(`/api/ajax/list?isPublish=true&page=${this.state.page}&size=${this.state.size}`).then(response => {
+  }
+
+  getArticleList(page, size) {
+    axios.get(`/api/ajax/list?isPublish=true&page=${page}&size=${size}`).then(response => {
       let { list, total } = response.data.data;
       // console.log(list, 'dsd');
-      this.setState({ list, total });
+      this.setState({ list, total }, () => {
+        console.log(this.state, 'wtf');
+      });
     }).catch(err => {
       throw new Error(err);
     })
-  }
-
-  getAllTags() {
-    axios.get('/api/ajax/getTags').then(response => {
-      let tags = response.data.data;
-      this.setState({ menus: tags });
-    }).catch(err => {
-      throw new Error(err);
-    })
-  }
-
-  getArticleList(dir) {
-    if (dir === 1) {
-      this.setState(prev => {
-        if (prev.page * prev.size < prev.total) {
-          return {
-            page: prev.page + 1
-          }
-        } else {
-          return {
-            page: prev.page
-          }
-        }
-      }, () => {
-        axios.get(`/api/ajax/list?isPublish=true&page=${this.state.page}&size=${this.state.size}`).then(response => {
-          let { list, total } = response.data.data;
-          // console.log(list, 'dsd');
-          this.setState({ list, total });
-        }).catch(err => {
-          throw new Error(err);
-        })
-      })
-    } else if (dir === -1) {
-      this.setState(prev => {
-        console.log(prev.page, '设置的page');
-        return {
-          page: prev.page <= 1 ? 1 : prev.page - 1
-        }
-      }, () => {
-        axios.get(`/api/ajax/list?isPublish=true&page=${this.state.page}&size=${this.state.size}`).then(response => {
-          let { list, total } = response.data.data;
-          // console.log(list, 'dsd');
-          this.setState({ list, total });
-        }).catch(err => {
-          throw new Error(err);
-        })
-      })
-    }
-
   }
 
   toggleMenu() {
@@ -121,7 +71,7 @@ export default class Home extends Component {
     const { list } = this.state;
     return list.map(item => {
       return (
-        <Link to={`frontEnd/details/${item._id}`} key={item._id} >
+        <Link to={`details/${item._id}`} key={item._id} >
           <div className="list-group-item item" >
             <h3 className="title">{item.title}</h3>
             <p className="desc">{item.description}</p>
@@ -137,19 +87,28 @@ export default class Home extends Component {
       )
     })
   }
+  handleChangePage(page) {
+    let size = this.state.size;
+    this.getArticleList(page, size);
+  }
+
+  getArticleListByTagName = (tag) => {
+    axios.get(`/api/ajax/list?isPublish=true&tag=${tag}`).then(response => {
+      let list = response.data.data.list;
+      this.setState({
+        list: list,
+      });
+    })
+  }
 
   render() {
-    const { menus, list, menuStatus } = this.state;
-
-
+    let { list, total, size } = this.state;
     return (
       <div className="home" >
         <div id="menu" className="menu slideout-menu slideout-menu-right">
           <div className="nav-box">
             <div className="nav-title">MENU</div>
-            {
-              menus.length > 0 && (<MyMenu menus={menus} list={this.state.list} context={this} />)
-            }
+            <MyMenu callback={this.getArticleListByTagName} />
           </div>
         </div>
 
@@ -167,12 +126,14 @@ export default class Home extends Component {
               {
                 list && list.length > 0 && this.renderItem()
               }
+              {
+                (!list || list.length == 0) && (
+                  <div className="tips">暂无数据</div>
+                )
+              }
             </div>
 
-            <div className="pager">
-              <div className="previous" onClick={this.getArticleList.bind(this, -1)} >&larr; PREV</div>
-              <div className="next" onClick={this.getArticleList.bind(this, 1)}>&rarr; NEXT</div>
-            </div>
+            {total > 0 && list.length > 0 && <Pagination total={total} pageSize={size} currentChange={this.handleChangePage.bind(this)} />}
           </div>
           <div className="footer center-block">
             Vin Coder ©2018

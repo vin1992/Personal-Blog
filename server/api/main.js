@@ -12,7 +12,7 @@ const fileApi = require('./file');
 
 //获取文章列表
 router.get('/list', function (req, res) {
-  console.log(req.query);
+  console.log(req.query, '列表');
   let size = Number(req.query.size) || 5;
   let tag = null || req.query.tag;
   let isPublish = req.query.isPublish || true;

@@ -61,8 +61,8 @@ export default class Garbage extends Component {
         renderItem={item => (
           <List.Item actions={[<div onClick={this.recover.bind(this, item._id)}>恢复</div>, <div onClick={this.deleteArticle.bind(this, item._id)}>彻底删除</div>]}>
             <List.Item.Meta
-              title={<Link to={`/backEnd/home/articleDetails/${item._id}`}>{item.title}</Link>}
-              description={item.content}
+              title={<Link to={`/backEnd/articleDetails/${item._id}`}>{item.title}</Link>}
+              description={item.description}
             />
           </List.Item>
         )}

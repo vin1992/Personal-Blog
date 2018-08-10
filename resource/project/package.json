@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --open --env development",
+    "start": "webpack-dev-server --open ",
     "watch": "webpack --watch",
-    "build": "webpack --config webpack.config.js --env production",
-    "test": "webpack --config webpack.dll.config.js --env production",
+    "build": " yarn install && webpack --env production",
+    "test": "webpack  --env production",
     "tmp": "webpack --config webpack.config.js"
   },
   "author": "vin_coder",
@@ -49,6 +49,7 @@
     "style-loader": "^0.20.3",
     "url-loader": "^1.0.1",
     "webpack": "^4.5.0",
+    "webpack-cli": "^3.1.0",
     "webpack-command": "^0.4.1",
     "webpack-dev-server": "^3.1.1"
   },

@@ -14,9 +14,10 @@
     <div id="root"></div>
   </body>
   <!-- 以下脚本是调试使用，正式需要写明需要的脚本 -->
+  <script src="/vendor.bundle.js"></script>
   <script>
     var bundle = location.pathname.split('/')[1];
-    document.write('<script src="/modules/' + bundle + '.bundle.js"><\/script>');
+    document.write('<script src="/modules/' + (bundle || 'frontEnd') + '.bundle.js"><\/script>');
   </script>
 
 </html>

@@ -1,7 +1,6 @@
 @import '../../less/global.css';
-
 .home {
-  color:rgba(0,0,0,0.8);
+  color: rgba(0, 0, 0, 0.8);
   position: relative;
 }
 
@@ -10,14 +9,15 @@
 }
 
 .home .banner h1 {
-  color:rgba(0,0,0,0.8);
+  color: rgba(0, 0, 0, 0.8);
   font-family: "Open Sans", sans-serif;
-  font-size:2em;
+  font-size: 2em;
 }
+
 .home .banner h2 {
-  color:rgba(0,0,0,0.5);
+  color: rgba(0, 0, 0, 0.5);
   font-family: "Merriweather", serif;
-  font-size:1.8em;
+  font-size: 1.8em;
 }
 
 @media (max-width:768px) {
@@ -25,102 +25,117 @@
     padding: 4rem 2rem;
   }
   .home .banner h1 {
-    font-size:1.5em;
+    font-size: 1.5em;
   }
   .home .banner h2 {
-    font-size:1.3em;
+    font-size: 1.3em;
   }
 }
 
 .list .item {
-  border:none;
+  border: none;
   border-bottom: 1px solid rgb(230, 230, 230);
   border-radius: 0;
 }
-.list .item .title{
+
+.list .item .title {
   font-family: "Open Sans", sans-serif;
-  color:rgba(0,0,0,0.8);
+  color: rgba(0, 0, 0, 0.8);
 }
 
 .list .item .desc {
-  color:#3A4145;
+  color: #3A4145;
   font-family: "Merriweather", serif;
 }
 
 .list .item .author img {
-  width:1.2rem;
+  width: 1.2rem;
   height: 1.2rem;
   border-radius: 50%;
 }
 
 .home .container {
-  width:50%;
+  width: 50%;
 }
 
 @media (max-width:768px) {
   .home .container {
-    width:100%;
+    width: 100%;
   }
 }
+
+.home .container .list .tips {
+  text-align: center;
+  padding: 10px;
+  background-color: #e9ecef;
+}
+
 .home .container .pager {
   width: 100%;
   height: 3rem;
-  margin-top:1rem;
+  margin-top: 1rem;
 }
-.home .container .pager div {
+
+.home .container .pager button {
   display: inline-block;
   width: auto;
-  float:left;
-  color:#889093;
-  border-color:#98a0a4;
+  float: left;
+  color: #889093;
+  border-color: #98a0a4;
   padding: 5px 8px;
-  border-radius:5px;
-  border:1px solid #889093;
+  border-radius: 5px;
+  border: 1px solid #889093;
   cursor: pointer;
 }
+
 .home .container .pager .next {
   float: right;
   text-align: right;
 }
 
 .home .footer {
-  padding:1rem 0;
+  padding: 1rem 0;
   width: 100%;
   text-align: center;
 }
 
 #panel .toggle-menu {
   position: absolute;
-  top:1rem;
+  top: 1rem;
   right: 1rem;
   z-index: 2;
 }
 
 .home .menu {
-  background-color:#111;
+  background-color: #111;
 }
+
 .menu .nav-box .nav-title {
-  padding: 3.2rem  7% 0;
+  padding: 3.2rem 7% 0;
   font-size: 1.4rem;
-  color:#fff;
+  color: #fff;
 }
+
 .menu .nav-box .nav-ls {
   padding: 0.5rem 7%;
-  counter-reset: item;  
+  counter-reset: item;
 }
+
 .menu .nav-box .nav-ls .nav-itm {
   display: flex;
-  color:#B8B8B8;
+  color: #B8B8B8;
   font-family: "Merriweather", serif;
   font-size: 1.4rem;
   max-width: 18rem;
   overflow: hidden;
 }
+
 .menu .nav-box .nav-ls .nav-itm::before {
   display: inline-block;
-  content:"................................................................................................................";
-  order:2;
+  content: "................................................................................................................";
+  order: 2;
 }
+
 .menu .nav-box .nav-ls .nav-itm::after {
   content: counter(item, lower-roman);
   counter-increment: item;
@@ -130,25 +145,27 @@
 
 .details {
   padding: 10px;
-  color:#2E2E2E;
+  color: #2E2E2E;
   display: flex;
   flex-direction: column;
   justify-content: stretch;
   height: 100vh;
 }
+
 .details article {
-  flex:1;
+  flex: 1;
 }
 
 .details article .art-head {
   margin-top: 50px;
-
 }
+
 .details article .art-head h1 {
   font-family: "Open Sans", sans-serif;
 }
+
 .details article .art-head span {
-  color:#9EABB3;
+  color: #9EABB3;
   font-family: "Open Sans", sans-serif;
 }
 
@@ -158,12 +175,7 @@
 
 .details .footer {
   position: relative;
-  bottom: 0; 
+  bottom: 0;
   text-align: center;
   width: 100%;
 }
-
-
-
-
-

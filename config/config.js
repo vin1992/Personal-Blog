@@ -17,6 +17,8 @@ const config = {
 
   startMode: 'develop', // 启动模式
 
+  cluster: 1
+
 }
 
 module.exports = config;

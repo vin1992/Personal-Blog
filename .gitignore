@@ -1,7 +1,7 @@
 node_modules
-./resource/project/node_modules
+resource/project/node_modules
 progress.md
-./resource/project/dist
-./resource/project/dist/modules
-./yarn.lock
-./yarn-error.log
+resource/project/dist
+resource/project/dist/modules
+yarn.lock
+yarn-error.log

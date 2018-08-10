@@ -3,8 +3,7 @@ import 'react-quill/dist/quill.snow.css';
 import "./style.css";
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, browserHistory, IndexRoute } from 'react-router';
-import Loadable from 'react-loadable';
+import { Router, Route, browserHistory } from 'react-router';
 
 import App from './app';
 import Home from './home';
@@ -21,9 +20,9 @@ import Door from './door';
 
 ReactDOM.render(
   <Router history={browserHistory}>
-    <Route path="backEnd" component={Door}>
-      <Route path="home" component={App}>
-        <Route path="index" component={Home} />
+    <Route path="/" component={Door}>
+      <Route path="backEnd" component={App}>
+        <Route path="home" component={Home} />
         <Route path="create" component={CreateArticle} />
         <Route path="modify/:id" component={ModifyArticle} />
         <Route path="articleList" component={ArticleList} />

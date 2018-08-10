@@ -24,15 +24,6 @@ export default class ArticleList extends Component {
       console.error(err);
     })
   }
-  modifyArticle(id) {
-    console.log('修改id', id)
-    axios.post(`/api/admin/article/modify`).then(res => {
-      console.log(res)
-      this.getList();
-    }).catch(err => {
-      console.log(err);
-    })
-  }
 
   removeArticle(id) {
     axios.get(`/api/admin/article/remove?id=${id}`).then(res => {
@@ -64,7 +55,7 @@ export default class ArticleList extends Component {
           {list.length > 0 && (
             list.map((item, id) => {
               return (<tr key={id}>
-                <td><Link to={`/backEnd/home/articleDetails/${item._id}`}>{item.title}</Link></td>
+                <td><Link to={`/backEnd/articleDetails/${item._id}`}>{item.title}</Link></td>
                 <td>{item.author}</td>
                 <td>{Filter.formatDate(item.time)}</td>
                 <td>{item.tag}</td>
@@ -72,7 +63,7 @@ export default class ArticleList extends Component {
                 <td>{item.viewCount}</td>
                 <td>{item.commentCount}</td>
                 <td className="art-option">
-                  <Link to={`/backEnd/home/modify/${item._id}`}>修改</Link>
+                  <Link to={`/backEnd/modify/${item._id}`}>修改</Link>
                   <span onClick={this.removeArticle.bind(this, item._id)}>移入回收站</span>
                 </td>
               </tr>)
